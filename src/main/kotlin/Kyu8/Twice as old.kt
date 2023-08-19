@@ -1,3 +1,5 @@
+package Kyu8
+
 fun twiceAsOld(dadYearsOld: Int, sonYearsOld: Int): Int {
     var twice=sonYearsOld*2
     if(dadYearsOld>twice){

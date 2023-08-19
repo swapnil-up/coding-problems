@@ -1,3 +1,5 @@
+package Kyu7
+
 fun evaporator(content: Double, evap_per_day: Double, threshold: Double): Int {
     var decreaseContent=content
     var days=0

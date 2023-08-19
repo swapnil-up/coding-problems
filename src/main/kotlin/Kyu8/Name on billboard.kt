@@ -1,4 +1,6 @@
-fun billboard(name:String,price:Int = 30){
+package Kyu8
+
+fun billboard(name:String, price:Int = 30){
     var value=0
     var count=name.count()
     for(i in 1..count) {value+=price}

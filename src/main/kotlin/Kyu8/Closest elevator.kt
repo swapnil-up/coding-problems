@@ -1,3 +1,5 @@
+package Kyu8
+
 import kotlin.math.abs
 
 fun elevator(left: Int, right: Int, call: Int): String {
@@ -12,7 +14,7 @@ fun elevator(left: Int, right: Int, call: Int): String {
 }
 
 fun main(){
-        var e1=elevator(0,1,0)
+        var e1= elevator(0,1,0)
         println(e1)
 //        assertEquals("right", elevator(0,1,1))
 //        assertEquals("right", elevator(0,1,2))

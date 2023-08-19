@@ -1,3 +1,5 @@
+package Kyu8
+
 fun feast(beast: String, dish: String): Boolean {
     if (beast.first()==dish.first() && beast.last()==dish.last()) return true
     else return false
