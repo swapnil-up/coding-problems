@@ -1,4 +1,4 @@
-package Kyu7
+package Kyu6
 
 fun solution(number: Int): Int {
     var sum=0
