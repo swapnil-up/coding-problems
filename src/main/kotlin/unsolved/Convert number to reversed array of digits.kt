@@ -1,4 +1,4 @@
-package Kyu8
+package unsolved
 
 object Kata {
     fun digitize(n: Long): IntArray {
