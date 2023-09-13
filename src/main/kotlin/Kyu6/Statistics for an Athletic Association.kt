@@ -1,7 +1,5 @@
 package Kyu6
 
-import kotlin.math.round
-
 object Stat {
 
     fun stat(s: String): String {
@@ -13,10 +11,10 @@ object Stat {
         }
         values.forEach { println(it) }
         values.sort()
-        var range=values.last().toInt()-values.first().toInt()
-        var mean=values.sumOf { it.toInt() }/values.size
-        var median=if (values.size%2==0) (values[values.size/2].toInt()+values[values.size/2+1].toInt())/2
-                    else values[(values.size/2).toInt()]
+        var range= values.last() - values.first()
+        var mean=values.sumOf { it }/values.size
+        var median=if (values.size%2==0) (values[values.size/2] + values[values.size/2+1])/2
+                    else values[(values.size/2)]
         return ("Range: "+formatting(range)+" Average: "+ formatting(mean)+" Median: "+ formatting(median))
     }
     fun formatting(seconds:Int):String{
