@@ -22,3 +22,18 @@ if __name__ == '__main__':
     print(digit)
     print(lower)
     print(upper)
+
+
+# using a enerator would've been better
+# checks = [
+#     str.isalnum,
+#     str.isalpha,
+#     str.isdigit,
+#     str.islower,
+#     str.isupper
+# ]
+
+# if __name__ == '__main__':
+#     s = input()
+#     for check in checks:
+#         print(any(check(c) for c in s))
