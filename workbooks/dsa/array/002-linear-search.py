@@ -8,19 +8,21 @@ def linear_search_variations():
     """
     
     def find_first(arr, target):
-        # TODO: Return index of first occurrence, -1 if not found
+        try:
+            return arr.index(target)
+        except:
+            return -1
         pass
     
     def find_all(arr, target):
-        # TODO: Return list of all indices where target appears
+        return [i for i, x in enumerate(arr) if target == x]
         pass
     
     def exists(arr, target):
-        # TODO: Return True if target exists, False otherwise
-        pass
+        return target in arr
     
     def find_closest(arr, target):
-        # TODO: Return element closest to target value
+        return min(arr, key=lambda x: abs(target-x))
         pass
     
     # Test cases
@@ -31,4 +33,4 @@ def linear_search_variations():
     print(f"Closest to 6: {find_closest(test_arr, 6)}")  # Should be 5 or 7
 
 # Uncomment to test
-# linear_search_variations()
+linear_search_variations()
