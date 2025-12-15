@@ -1,0 +1,38 @@
+{
+  "workbench.statusBar.visible": true,
+  "editor.minimap.enabled": false,
+  "editor.lineNumbers": "on",
+  "breadcrumbs.enabled": false,
+  
+  // Font and spacing 
+  "editor.fontSize": 16,
+  "editor.lineHeight": 1.2,
+  "editor.wordWrap": "on",
+  "editor.wrappingIndent": "indent",
+  
+  // Zen mode (Ctrl+K Z)
+  "zenMode.centerLayout": true,
+  "zenMode.fullScreen": false,
+  "zenMode.hideLineNumbers": true,
+  "zenMode.restore": true,
+  
+  // Auto-save
+  // "files.autoSave": "afterDelay",
+  // "files.autoSaveDelay": 5000,
+  
+  // Markdown specific
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    },
+    "editor.wordBasedSuggestions": "off",
+    "editor.formatOnSave": false
+  },
+  
+  // Custom word list for spell checker
+  "cSpell.words": [
+  ],
+  // "workbench.activityBar.location": "hidden"
+}

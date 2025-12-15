@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Lint Current File",
+      "type": "shell",
+      "command": "python3",
+      "args": ["tools/prose_linter.py", "${file}"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Word Count - All Scenes",
+      "type": "shell",
+      "command": "find scenes/ -name '*.md' -exec wc -w {} + | tail -1",
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Lint All Scenes",
+      "type": "shell",
+      "command": "for file in scenes/*.md; do echo \"=== $file ===\";\n python tools/prose_linter.py \"$file\"; done",
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Generate Scene List",
+      "type": "shell",
+      "command": "ls -1 scenes/ | nl > planning/scene-list.txt && cat planning/scene-list.txt",
+      "presentation": {
+        "reveal": "always"
+      }
+    },
+    {
+      "label": "Lint with Problems View",
+      "type": "shell",
+      "command": "python3",
+      "args": ["tools/prose_linter_vscode.py", "${file}"],
+      "problemMatcher": {
+        "owner": "prose",
+        "fileLocation": ["absolute"],
+        "pattern": {
+          "regexp": "^(.+):(\\d+):(\\d+):\\s+(warning|error):\\s+\\[(.+)\\]\\s+(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "severity": 4,
+          "code": 5,
+          "message": 6
+        }
+      }
+    }
+  ]
+}
