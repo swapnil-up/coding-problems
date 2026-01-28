@@ -1,0 +1,5 @@
+Today I "coded" with an AI in my editor. It kept on writing all the code, I was trying to learn a new paradigm but it rapidly went through phases while I was there just staring. I started from scratch while building with it in my browser instead. A fine line between avoiding boiler plate while still learning. 
+
+But given that you could make a CV worthy project for a mid level role in a few days are there any reasons to make projects for the most part, when it's not driven by a need to show off your solution to a problem. So maybe one reason is actually to use it to share thoughts. 
+
+Write about new concepts you learnt, new opinions you have. Post in on your blog then link in the readme. But I don't write. Meh. Just write a heading, one line and post it. You can add onto it later. You have a fucking version control dammit. Iterate on the articles and upload again. You have 0 fucking viewers anyway. Who cares? 

@@ -1,0 +1,3 @@
+A wordpress developer and a laravel developer don't have that much of a difference in salary. In the eyes of the market, to provide the end user with actual things they need for their business it doesn't matter how good the source code is. Whether you develop an app with flutter or flutterflow the thing that matters to the customer is at the end. What they get to use. Whether a business rule was implemented. Whether a feature was built and shipped in a reasonable amount of time. 
+
+So then what does matter for a user's skill when it comes to a developer. Does it reduce to a question of what brings the most value to the team, which may not even be an expertise in a language or an architecture method. 

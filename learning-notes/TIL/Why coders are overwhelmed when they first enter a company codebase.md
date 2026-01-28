@@ -1,0 +1,5 @@
+Realized this as I was talking to a coworker, how it's easy to overcomplicate things as well as get overwhelmed, when you enter a new, mature codebase, especially for the first time. 
+
+Everything's new, you don't know what matters and what doesn't which results in information overload. That was definitely the case for me as I started working at Mavorion. But now a 500 line vue file doesn't even make me pause, get in, change only what you need to, then leave. 
+
+The other reason is that you don't carefully move. Every file is a landmine, if you just trounce about you're likely to break stuff. Stuff that was already working. Which then further causes the problem of having to deal with the uncertainty of what exactly is failing, did it fail because of whatever new things you're adding, or because you messed with something that already was working. Even further if you don't realize it's not working because of what you did, then in your arrogance you'll change even more stuff and go down a rabbit hole that'll just be wasting time fixing things that originally just worked. 

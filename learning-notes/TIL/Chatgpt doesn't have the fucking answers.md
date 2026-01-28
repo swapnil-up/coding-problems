@@ -1,0 +1,4 @@
+I've recently spent a large amount of time prompting and conversing with gpt, or claude, or gemini and have come to the realization that they don't have the overarching answers. I love them for code and I love that they can be used for targeted search and amalgamate of thought streams. 
+
+But when it comes to the deeper things it is still too vague or maybe it's censor from the big tech. But I likely won't find the important stuff on there. When I need a sounding board maybe but never for the initial exploration. The answers may be clever yet effervescent. This is coming after a search for making a more reflective environment for myself. I recently started scribbling along the margins of meditations and it's a fun experience. I'm more reflective and critical about the text, about what exactly they're saying. To try and stay in that headspace longer is the goal, yet explaining that to gpt takes longer than just thinking it through myself. 
+

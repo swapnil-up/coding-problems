@@ -1,0 +1,5 @@
+I've fallen guilty to this before. I'll think about the best, most perfect architecture and analyze the most niche edge cases and abstract to basically no extra character. Take onebook where I first tried to write out everything for the hospital commands and just stayed with analysis paralysis. I see this is Aspiree's codebase too. Being clever to prevent problems in the future which create problems when having to think through the code now. 
+
+A counter example was iterative building with the pharmacy commands for onebook. I basically created 6 separate similar commands that worked individually. Then combined the calling command into one. Then created a wrapper for working on the function in a loop for the date. There's further abstractions that can be done. Maybe use a singular function and only substitute the names. But in the end what's the point? It's code that'll be complicated for the next coder, and the end user nor the office tauke who requested this care. Code probably has a graph for business value vs how well it's written. 
+
+#tech
