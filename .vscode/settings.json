@@ -2,7 +2,7 @@
   "workbench.statusBar.visible": true,
   "editor.minimap.enabled": false,
   "editor.lineNumbers": "on",
-  "breadcrumbs.enabled": false,
+  "breadcrumbs.enabled": true,
   
   // Font and spacing 
   "editor.fontSize": 16,
