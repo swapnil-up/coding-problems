@@ -1,42 +1,68 @@
-# sv
+# Svelte Workbook — Basic Svelte Practice
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+A hands-on workbook covering everything in the **Basic Svelte** tutorial. Each problem has broken/incomplete code for you to fix, plus a test file to verify your solution.
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+- You've read the Basic Svelte tutorial at https://svelte.dev/tutorial
+- Node.js 18+ installed
 
-```sh
-# create a new project
-npx sv create my-app
+## Setup
+
+```bash
+npm install
 ```
 
-To recreate this project with the same configuration:
+This installs Vitest + @testing-library/svelte used across all problems.
 
-```sh
-# recreate this project
-npx sv create --template minimal --no-types --install npm ./
+## Running Tests
+
+**Single problem:**
+```bash
+npm test -- problem_01
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+**All problems:**
+```bash
+npm test
 ```
 
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
+**Watch mode while you work:**
+```bash
+npm run test:watch -- problem_05
 ```
 
-You can preview the production build with `npm run preview`.
+## Problem List
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+| # | Topic | Concepts |
+|---|-------|----------|
+| 01 | Hello Svelte | Components, markup, script, style |
+| 02 | Dynamic Attributes | `{}` interpolation, dynamic attrs, shorthand |
+| 03 | Nested Components | Importing & using child components |
+| 04 | HTML Tags | `{@html}` tag |
+| 05 | Reactive State | `$state`, updating variables, reactivity |
+| 06 | Deep State | `$state` with objects and arrays |
+| 07 | Derived State | `$derived` |
+| 08 | Effects | `$effect` |
+| 09 | Props | `$props()`, passing data down |
+| 10 | Prop Defaults & Spread | Default values, spread props |
+| 11 | If / Else Blocks | `{#if}`, `{:else}`, `{:else if}` |
+| 12 | Each Blocks | `{#each}`, keyed each |
+| 13 | Await Blocks | `{#await}` |
+| 14 | DOM Events | `onclick`, `oninput`, event handlers |
+| 15 | Component Events | Callback props pattern |
+| 16 | Bindings | `bind:value`, `bind:checked`, `bind:group` |
+| 17 | Classes & Styles | `class:`, `style:`, component styles |
+| 18 | Transitions | `transition:`, `in:`, `out:` |
+| 19 | Key Blocks | `{#key}` |
+| 20 | Final Project | Shopping cart — combines everything |
+
+## How to Work Through Problems
+
+1. Read `PROBLEM.md` in each folder — it explains what to do
+2. Edit the `.svelte` file(s) — look for `// TODO` comments
+3. Run the tests: `npm test -- problem_XX`
+4. Fix until all tests pass
+5. Move to the next problem
+
+Good luck!
