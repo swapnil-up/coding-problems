@@ -1,11 +1,9 @@
 <script>
-  // TODO: destructure props using $props()
-  // You need: name, role, avatarUrl
-  // let { ... } = $props();
+  let {name, role, avatarUrl}=$props();
 </script>
 
-<!-- TODO: render a div.user-card containing:
-     - an <img> with src={avatarUrl} and alt={name}
-     - an <h3> with the name
-     - a <p> with the role
--->
+<div class="user-card">
+  <img src={avatarUrl} alt={name}/>
+  <h3>{name}</h3>
+  <p>{role}</p>
+</div>

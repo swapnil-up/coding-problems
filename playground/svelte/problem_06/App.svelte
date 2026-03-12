@@ -1,19 +1,25 @@
 <script>
-  // TODO: declare `todos` as $state([])
-  // TODO: declare `newTodo` as $state('')
+  let todos = $state([]);
+  let newTodo = $state("");
 
   function addTodo() {
-    // TODO: push { text: newTodo, done: false } to todos
-    // TODO: reset newTodo to ''
+    todos.push({ text: newTodo, done: false });
+    newTodo = "";
   }
 
   function removeTodo(index) {
-    // TODO: remove the item at `index` from todos
+    todos.splice(index, 1);
   }
 </script>
 
-<!-- TODO: render an input bound to newTodo with placeholder "New todo..." -->
-<!-- TODO: render an "Add" button that calls addTodo() -->
+<input bind:value={newTodo} placeholder="New todo..." />
+<button onclick={addTodo}>Add</button>
 
-<!-- TODO: render a <ul> with {#each todos as todo, i} -->
-<!-- Each <li> should show todo.text and a "Remove" button -->
+<ul>
+  {#each todos as todo, i}
+    <li>
+      <p>{todo.text}</p>
+      <button onclick={() => removeTodo(i)}>Remove</button>
+    </li>
+  {/each}
+</ul>

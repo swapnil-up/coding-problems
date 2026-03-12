@@ -1,8 +1,5 @@
 <script>
-  // TODO: destructure props with defaults
-  // label is required (no default)
-  // color defaults to "gray"
-  // size defaults to "medium"
-</script>
+  let {label, color = 'gray', size='medium'}=$props();
 
-<!-- TODO: render <span class="badge" data-color={color} data-size={size}>{label}</span> -->
+</script>
+<span class="badge" data-color={color} data-size={size}>{label}</span>

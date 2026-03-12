@@ -1,5 +1,7 @@
 <script>
-  // TODO: import UserCard from './UserCard.svelte'
+  import UserCard from './UserCard.svelte'
 </script>
 
-<!-- TODO: render two UserCard components with the data described in PROBLEM.md -->
+<UserCard 
+name= "Alice", role= "Engineer" avatarUrl = "https://i.pravatar.cc/50?u=alice"/>
+<UserCard name= "Bob", role= "Designer" avatarUrl = "https://i.pravatar.cc/50?u=bob"/>

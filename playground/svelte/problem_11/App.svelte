@@ -1,10 +1,21 @@
 <script>
-  // TODO: declare `signal` as $state('red')
+  let signal = $state("red")
 </script>
 
-<!-- TODO: show current signal in a <span data-testid="signal"> -->
+<div class="light">
+  {#if signal==='red'}
+  <p data-testid="message" style="color: red;">Stop!</p>
+  {:else if signal==="yellow"}
+  <p data-testid="message" style="color: yellow;">Slow down!</p>
+  {:else if signal==="green"}
+  <p data-testid="message" style="color: green;">Go!</p>
+  {:else}
+  <p data-testid="message">Unknown Signal</p>
+  {/if}
 
-<!-- TODO: use {#if}/{:else if}/{:else} to show the correct message in <p data-testid="message"> -->
-<!-- red → "Stop!", yellow → "Slow down!", green → "Go!", else → "Unknown signal" -->
+  <button onclick={()=>signal = 'red'}>Red</button>
+  <button onclick={()=>signal = 'yellow'}>Yellow</button>
+  <button onclick={()=>signal = 'green'}>Green</button>
 
-<!-- TODO: add three buttons to change signal: "Red", "Yellow", "Green" -->
+  <span data-testid="signal">{signal}</span>
+</div>

@@ -1,16 +1,18 @@
 <script>
-  let query = $state('');
+  let query = $state("");
   let log = $state([]);
 
-  // TODO: add a $effect that watches `query`
-  // When query is non-empty, push "Searched: {query}" to log
-  // $effect(() => {
-  //   ...
-  // });
+  $effect(() => {
+    if (query.trim() == "") return;
+    if (log[log.length -1] == "Searched: " + query) return;
+    log.push("Searched: " + query);
+  });
 </script>
 
-<!-- TODO: render an input with bind:value={query} and placeholder "Type to search..." -->
-
-<!-- TODO: render <p>Current query: {query}</p> -->
-
-<!-- TODO: render <ul data-testid="log"> with each log entry as an <li> -->
+<input bind:value={query} placeholder="Type to search..." />
+<p>Current query: {query}</p>
+<ul data-testid="log">
+  {#each log as logitem}
+    <li>{logitem}</li>
+  {/each}
+</ul>
