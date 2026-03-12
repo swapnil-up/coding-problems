@@ -1,11 +1,13 @@
 <script>
-  // TODO: import RatingStars from './RatingStars.svelte'
-  // TODO: declare `rating` as $state(0)
+  import RatingStars from "./RatingStars.svelte";
+  let rating = $state(0);
 </script>
 
-<!-- TODO: render <RatingStars value={rating} onRate={(r) => rating = r} /> -->
-
-<!-- TODO: render <p data-testid="rating"> showing:
-     - "Rating: {rating}/5" if rating > 0
-     - "No rating yet" if rating === 0
--->
+<RatingStars onRate={(r) => (rating = r)} value={rating} />
+<p data-testid="rating">
+  {#if rating == 0}
+    No rating yet
+  {:else}
+    Rating: {rating}/5
+  {/if}
+</p>

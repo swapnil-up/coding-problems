@@ -7,7 +7,11 @@ describe('Problem 14 — DOM Events', () => {
     const { container } = render(App);
     const swatch = container.querySelector('.swatch');
     expect(swatch).toBeInTheDocument();
-    expect(swatch.style.background).toContain('#3b82f6');
+
+    // Accept both formats to satisfy JSDOM's normalization
+    const style = swatch.style.background;
+    const isBlue = style.includes('#3b82f6') || style.includes('rgb(59, 130, 246)');
+    expect(isBlue).toBe(true);
   });
 
   it('color input updates the swatch', async () => {
@@ -15,7 +19,11 @@ describe('Problem 14 — DOM Events', () => {
     const colorInput = container.querySelector('input[type="color"]');
     await fireEvent.input(colorInput, { target: { value: '#ff0000' } });
     const swatch = container.querySelector('.swatch');
-    expect(swatch.style.background).toContain('#ff0000');
+
+    // Accept both hex and rgb(255, 0, 0)
+    const style = swatch.style.background;
+    const isRed = style.includes('#ff0000') || style.includes('rgb(255, 0, 0)');
+    expect(isRed).toBe(true);
   });
 
   it('renders key log list initially empty', () => {
@@ -44,7 +52,7 @@ describe('Problem 14 — DOM Events', () => {
   it('log resets after 5 keys and starts fresh', async () => {
     const { getByPlaceholderText, getByTestId } = render(App);
     const input = getByPlaceholderText('Press keys here...');
-    for (const k of ['a','b','c','d','e']) {
+    for (const k of ['a', 'b', 'c', 'd', 'e']) {
       await fireEvent.keyDown(input, { key: k });
     }
     expect(getByTestId('key-log').querySelectorAll('li')).toHaveLength(5);

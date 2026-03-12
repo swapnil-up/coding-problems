@@ -1,12 +1,22 @@
 <script>
-  // TODO: declare `tasks` as $state with the 4 task objects
+  let tasks = $state([
+    { id: 1, title: "Design mockup", priority: "high" },
+    { id: 2, title: "Write tests", priority: "medium" },
+    { id: 3, title: "Deploy app", priority: "low" },
+    { id: 4, title: "Review PR", priority: "high" },
+  ]);
 
   function shuffle() {
-    // TODO: randomly reorder the tasks array
+    tasks = [...tasks].sort(() => Math.random() - 0.5);
   }
 </script>
 
-<!-- TODO: add a "Shuffle" button -->
+<button onclick={shuffle}>Shuffle</button>
 
-<!-- TODO: use {#each tasks as task, i (task.id)} to render each task -->
-<!-- Each task needs .task wrapper, .title, .priority, and .index (#i+1) spans -->
+{#each tasks as task, i (task.id)}
+  <div class="task">
+    <span class="title">{task.title}</span>
+    <span class="priority">{task.priority}</span>
+    <span class="index">{i+1}</span>
+  </div>
+{/each}

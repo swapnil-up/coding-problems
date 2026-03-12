@@ -11,13 +11,16 @@
     return jokes[Math.floor(Math.random() * jokes.length)];
   }
 
-  // TODO: declare `jokePromise` as $state(fetchJoke())
+  let jokePromise = $state(fetchJoke())
+  $inspect(jokePromise) 
 </script>
 
-<!-- TODO: use {#await jokePromise} to show:
-     - loading state: <p data-testid="loading">Loading joke...</p>
-     - success state: <p data-testid="joke">{joke}</p>
-     - error state: <p data-testid="error">Failed to load joke: {error.message}</p>
--->
+{#await jokePromise}
+  <p data-testid="loading">Loading joke...</p>
+{:then value}
+  <p data-testid="joke">{value}</p>
+{:catch error}
+  <p data-testid="error">Failed to load joke: {error.message}</p>
+{/await}
 
-<!-- TODO: add a "New Joke" button that sets jokePromise = fetchJoke() -->
+<button onclick={()=>jokePromise=fetchJoke()}>New Joke</button>

@@ -1,12 +1,31 @@
 <script>
-  // TODO: declare `color` as $state('#3b82f6')
-  // TODO: declare `keyLog` as $state([])
+  let color = $state('#3b82f6');
+  let keyLog = $state([]);
 </script>
 
-<!-- TODO: color swatch div with class="swatch" and dynamic background style -->
+<div 
+  class="swatch" 
+  style:background={color} 
+  style="height: 40px; width: 40px;"
+></div>
 
-<!-- TODO: <input type="color"> with oninput to update color -->
+<input type="color" value={color} oninput={(e) => color = e.target.value} />
 
-<!-- TODO: text input with placeholder "Press keys here..." and onkeydown to log keys -->
+<input 
+  type="text" 
+  placeholder="Press keys here..." 
+  onkeydown={(e) => {
+    const key = e.key; 
+    if (keyLog.length < 5) {
+      keyLog.push(key);
+    } else {
+      keyLog = [key];
+    }
+  }} 
+/>
 
-<!-- TODO: <ul data-testid="key-log"> showing each key as <li> -->
+<ul data-testid="key-log">
+  {#each keyLog as logItem}
+    <li>{logItem}</li>
+  {/each}
+</ul>

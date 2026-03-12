@@ -5,9 +5,9 @@ export default defineConfig({
   plugins: [
     svelte({ 
       hot: !process.env.VITEST,
-      // Add this block:
       compilerOptions: {
-        css: 'injected' 
+        css: 'injected',
+        dev: true,
       }
     })
   ],
