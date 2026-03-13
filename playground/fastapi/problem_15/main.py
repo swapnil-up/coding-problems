@@ -32,13 +32,20 @@ HINTS:
 - Remember to call: response = await call_next(request)
 """
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 import time
 
 app = FastAPI()
 
-# TODO: Create middleware that adds timing and custom header
-# Your code here
-
-# TODO: Create GET endpoint at "/test"
-# Your code here
+@app.middleware("http")
+async def add_time(request: Request, call_next):
+  start=time.perf_counter()
+  response = await call_next(request)
+  total_time = time.perf_counter()-start
+  response.headers["X-Process-Time"]=f"{total_time}"
+  response.headers["X-Custom-Header"]="FastAPI-Workbook"
+  return response
+  
+@app.get("/test")
+def test():
+  return {"message": "Middleware test"}

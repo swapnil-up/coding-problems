@@ -40,14 +40,23 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-# TODO: Add CORS middleware with specified configuration
-# Your code here
+origins = ["http://localhost:3000", "http://localhost:8080", "http://127.0.0.1:8000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"]
+)
 
 class DataInput(BaseModel):
     value: str
 
-# TODO: Create GET endpoint at "/public"
-# Your code here
-
-# TODO: Create POST endpoint at "/data"
-# Your code here
+@app.get("/public")
+def public_func():
+    return {"message": "Public endpoint"}
+    
+@app.post("/data")
+def send_data(input: DataInput):
+  return {"received": input.value}

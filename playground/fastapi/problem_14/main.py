@@ -48,13 +48,16 @@ class Notification(BaseModel):
     email: str
     message: str
 
-# TODO: Create send_email function
-# Your code here
+def send_email(email: str, message: str):
+  global sent_emails
+  sent_emails.append({"email": email, "message": message})
 
-# TODO: Create POST endpoint at "/send-notification"
-# Use BackgroundTasks to send email in background
-# Your code here
+@app.post("/send-notification")
+def send_noti(notification: Notification, background_tasks: BackgroundTasks):
+  background_tasks.add_task(send_email, notification.email, notification.message)
+  return {"status": "notification queued"}
 
-# TODO: Create GET endpoint at "/sent-emails"
-# Return the sent_emails list
-# Your code here
+@app.get("/sent-emails")
+def get_emails():
+  return sent_emails
+

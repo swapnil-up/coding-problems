@@ -44,9 +44,15 @@ users_db = {
     1: {"id": 1, "name": "Alice", "email": "alice@example.com", "age": 30}
 }
 
-# TODO: Define UserUpdate model with optional fields
-# Your code here
+class UserUpdate(BaseModel):
+  name: Optional[str]=None
+  email: Optional[str]=None
+  age: Optional[int]=None
 
-# TODO: Create PATCH endpoint at "/users/{user_id}"
-# Update only the fields that are provided
-# Your code here
+@app.patch("/users/{user_id}")
+def update_user(user_id: int, user_update: UserUpdate):
+  if user_id not in users_db:
+    raise HTTPException(status_code=404, detail="User not found")
+  updated = user_update.model_dump(exclude_unset=True)
+  users_db[user_id].update(updated)
+  return users_db[user_id]

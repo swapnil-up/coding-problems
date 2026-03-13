@@ -30,94 +30,95 @@ def reset_database():
     main.next_id = 1
     yield
 
-
-# TODO: Implement this test
 def test_list_todos_empty():
     """Test that listing todos returns empty array when no todos exist"""
-    # Your code here
-    pass
+    response = client.get("/todos")
+    assert response.status_code == 200
+    assert response.json() == []
 
-
-# TODO: Implement this test
 def test_create_todo():
     """Test creating a new todo"""
-    # Your code here
-    # Hint: POST to /todos with {"title": "Test", "completed": false}
-    # Check status code is 201
-    # Check response has id, title, completed fields
-    pass
+    response = client.post("/todos", json={"title": "Test", "completed": False})
+    assert response.status_code == 201
+    data = response.json()
+    assert data["id"] == 1
+    assert data["title"] == "Test"
+    assert data["completed"] is False
 
-
-# TODO: Implement this test
 def test_create_todo_defaults_completed_to_false():
     """Test that completed defaults to False if not provided"""
-    # Your code here
-    pass
+    # Sending only title, no 'completed' key
+    response = client.post("/todos", json={"title": "Default Test"})
+    assert response.status_code == 201
+    assert response.json()["completed"] is False
 
-
-# TODO: Implement this test
 def test_list_todos_returns_created_todos():
     """Test that listing todos returns previously created todos"""
-    # Your code here
-    # Hint: Create 2-3 todos, then GET /todos and check they're all there
-    pass
+    client.post("/todos", json={"title": "Todo 1"})
+    client.post("/todos", json={"title": "Todo 2"})
+    
+    response = client.get("/todos")
+    assert response.status_code == 200
+    assert len(response.json()) == 2
 
-
-# TODO: Implement this test
 def test_get_specific_todo():
     """Test getting a specific todo by ID"""
-    # Your code here
-    # Hint: Create a todo, note its ID, then GET /todos/{id}
-    pass
+    create_res = client.post("/todos", json={"title": "Find Me"})
+    todo_id = create_res.json()["id"]
+    
+    response = client.get(f"/todos/{todo_id}")
+    assert response.status_code == 200
+    assert response.json()["title"] == "Find Me"
 
-
-# TODO: Implement this test
 def test_get_nonexistent_todo():
     """Test that getting non-existent todo returns 404"""
-    # Your code here
-    pass
+    response = client.get("/todos/999")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Todo not found"
 
-
-# TODO: Implement this test
 def test_update_todo():
     """Test updating a todo"""
-    # Your code here
-    # Hint: Create a todo, then PUT to /todos/{id} with new data
-    pass
+    create_res = client.post("/todos", json={"title": "Old Title", "completed": False})
+    todo_id = create_res.json()["id"]
+    
+    response = client.put(f"/todos/{todo_id}", json={"title": "New Title", "completed": True})
+    assert response.status_code == 200
+    data = response.json()
+    assert data["title"] == "New Title"
+    assert data["completed"] is True
 
-
-# TODO: Implement this test
 def test_update_nonexistent_todo():
     """Test that updating non-existent todo returns 404"""
-    # Your code here
-    pass
+    response = client.put("/todos/999", json={"title": "Ghost", "completed": True})
+    assert response.status_code == 404
 
-
-# TODO: Implement this test
 def test_delete_todo():
     """Test deleting a todo"""
-    # Your code here
-    # Hint: Create a todo, DELETE it, check status 204
-    # Then try to GET it and should get 404
-    pass
+    create_res = client.post("/todos", json={"title": "Delete Me"})
+    todo_id = create_res.json()["id"]
+    
+    delete_res = client.delete(f"/todos/{todo_id}")
+    assert delete_res.status_code == 204
+    
+    # Verify it is gone
+    get_res = client.get(f"/todos/{todo_id}")
+    assert get_res.status_code == 404
 
-
-# TODO: Implement this test
 def test_delete_nonexistent_todo():
     """Test that deleting non-existent todo returns 404"""
-    # Your code here
-    pass
+    response = client.delete("/todos/999")
+    assert response.status_code == 404
 
-
-# TODO: Implement this test
 def test_create_multiple_todos_increments_id():
     """Test that creating multiple todos increments IDs"""
-    # Your code here
-    # Hint: Create 3 todos and check their IDs are 1, 2, 3
-    pass
+    res1 = client.post("/todos", json={"title": "T1"})
+    res2 = client.post("/todos", json={"title": "T2"})
+    res3 = client.post("/todos", json={"title": "T3"})
+    
+    assert res1.json()["id"] == 1
+    assert res2.json()["id"] == 2
+    assert res3.json()["id"] == 3
 
-
-# BONUS TODO: Implement this test using parametrization
 @pytest.mark.parametrize("title,completed", [
     ("Buy groceries", False),
     ("Finish homework", True),
@@ -125,13 +126,12 @@ def test_create_multiple_todos_increments_id():
 ])
 def test_create_various_todos(title, completed):
     """Test creating todos with various data"""
-    # Your code here
-    pass
+    response = client.post("/todos", json={"title": title, "completed": completed})
+    assert response.status_code == 201
+    assert response.json()["title"] == title
+    assert response.json()["completed"] == completed
 
-
-# BONUS TODO: Test validation
 def test_create_todo_missing_title():
-    """Test that creating todo without title returns validation error"""
-    # Your code here
-    # Hint: POST with {} or {"completed": true} should fail
-    pass
+    """Test that creating todo without title returns validation error (422)"""
+    response = client.post("/todos", json={"completed": True})
+    assert response.status_code == 422

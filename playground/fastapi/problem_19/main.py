@@ -41,11 +41,40 @@ HINTS:
 
 from fastapi import FastAPI
 from pydantic import BaseModel, field_validator, EmailStr
+import re
 
 app = FastAPI()
 
-# TODO: Define SignupData model with custom validators
-# Your code here
+class SignupData(BaseModel):
+  username: str
+  password: str
+  email: EmailStr
+  age: int 
 
-# TODO: Create POST endpoint at "/signup"
-# Your code here
+  @field_validator('username')
+  def validate_username(cls, v:str)-> str:
+    if len(v)<3 or len(v)>20:
+      raise ValueError('Username must be between 3 and 20 characters')
+    if not v.isalnum():
+      raise ValueError("Username must be alphanumeric")
+    return v
+  
+  @field_validator('password')
+  def validate_password(cls, v:str)->str:
+    regex_pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+    if not re.fullmatch(regex_pattern, v):
+      raise ValueError('must contain at least one uppercase, one lowercase, one digit, min 8 chars')
+    return v
+
+  @field_validator('age')
+  def validate_age(cls, v:int)->int:
+    if v<13 or v>120:
+      raise ValueError("must be between 13 and 120")
+    return v
+
+@app.post("/signup")
+def user_signup(signup: SignupData):
+  return {
+    "message": "Signup successful",
+    "username": signup.username
+  }

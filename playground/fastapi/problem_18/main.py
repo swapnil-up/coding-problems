@@ -40,11 +40,17 @@ from fastapi.responses import JSONResponse, PlainTextResponse, HTMLResponse
 
 app = FastAPI()
 
-# TODO: Create GET endpoint at "/json" returning JSONResponse
-# Your code here
+@app.get("/json", response_class=JSONResponse)
+def send_json():
+  return {
+    "format": "json",
+    "data": "example"
+  }
 
-# TODO: Create GET endpoint at "/text" returning PlainTextResponse
-# Your code here
+@app.get("/text", response_class=PlainTextResponse)
+def send_text():
+  return "This is plain text"
 
-# TODO: Create GET endpoint at "/html" returning HTMLResponse
-# Your code here
+@app.get("/html", response_class=HTMLResponse)
+def send_html():
+  return "<h1>Hello from FastAPI</h1>"
