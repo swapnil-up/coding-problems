@@ -1,6 +1,7 @@
 import { render, fireEvent } from '@testing-library/svelte';
 import { describe, it, expect } from 'vitest';
 import App from './App.svelte';
+import { tick } from 'svelte';
 
 describe('Problem 19 — Key Blocks', () => {
   it('shows the first word "Svelte" initially', () => {
@@ -16,6 +17,7 @@ describe('Problem 19 — Key Blocks', () => {
   it('Next button advances to second word', async () => {
     const { getByText, getByTestId } = render(App);
     await fireEvent.click(getByText('Next'));
+    await tick();
     expect(getByTestId('info').textContent).toContain('2 / 5');
     expect(getByText('Reactive')).toBeInTheDocument();
   });
@@ -24,6 +26,7 @@ describe('Problem 19 — Key Blocks', () => {
     const { getByText } = render(App);
     await fireEvent.click(getByText('Next'));
     await fireEvent.click(getByText('Previous'));
+    await tick();
     expect(getByText('Svelte')).toBeInTheDocument();
   });
 
@@ -43,7 +46,12 @@ describe('Problem 19 — Key Blocks', () => {
 
   it('uses {#key} block in source', async () => {
     const fs = await import('fs');
-    const source = fs.readFileSync(new URL('./App.svelte', import.meta.url), 'utf-8');
+    const path = await import('path');
+
+    // Use a string path to avoid the URL object error
+    const filePath = path.join(process.cwd(), 'problem_19', 'App.svelte');
+    const source = fs.readFileSync(filePath, 'utf-8');
+
     expect(source).toMatch(/#key/);
   });
 });

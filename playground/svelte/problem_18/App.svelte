@@ -1,33 +1,29 @@
 <script>
-  // TODO: import fade and fly from 'svelte/transition'
+  import { fade, fly, slide, scale } from "svelte/transition";
 
-  // TODO: declare messages as $state([])
-  // TODO: declare nextId as $state(1)
+  let messages = $state([]);
+  let nextId = $state(1);
 
   function addMessage() {
-    // TODO: push { id: nextId, text: `Message #${nextId}` } to messages
-    // TODO: increment nextId
+    messages = [...messages, { id: nextId, text: `Message #${nextId}` }];
+    nextId++;
   }
 
   function removeMessage(id) {
-    // TODO: filter out the message with this id
+    messages = messages.filter((m) => m.id !== id);
   }
 </script>
 
-<!-- TODO: "Add Message" button -->
-
-<!-- TODO: {#each messages as msg (msg.id)}
-     <div class="message" transition:fly={{ x: 200, duration: 300 }}>
-       {msg.text}
-       <button onclick={() => removeMessage(msg.id)}>×</button>
-     </div>
-     {/each}
--->
-
-<!-- TODO: {#if messages.length === 0}
-     <div class="banner" transition:fade>No messages! Add one above.</div>
-     {/if}
--->
+<button onclick={() => addMessage()}>Add Message</button>
+{#each messages as msg (msg.id)}
+  <div class="message" transition:fly={{ x: 200, duration: 0 }}>
+    {msg.text}
+    <button onclick={() => removeMessage(msg.id)}>×</button>
+  </div>
+{/each}
+{#if messages.length === 0}
+  <div class="banner" transition:fade={{duration:0}}>No messages! Add one above.</div>
+{/if}
 
 <style>
   .message {

@@ -54,7 +54,20 @@ describe('Problem 18 — Transitions', () => {
 
   it('component source uses transition directive', async () => {
     const fs = await import('fs');
-    const source = fs.readFileSync(new URL('./App.svelte', import.meta.url), 'utf-8');
-    expect(source).toMatch(/transition:|in:|out:/);
+    const path = await import('path'); // Use the path module instead
+
+    // Construct the path manually from the project root
+    // Assuming App.svelte is in the same folder as the test
+    const filePath = path.join(process.cwd(), 'problem_18', 'App.svelte');
+
+    try {
+      const source = fs.readFileSync(filePath, 'utf-8');
+      expect(source).toMatch(/transition:|in:|out:/);
+    } catch (err) {
+      // If the folder structure is different, this fallback might help
+      const fallbackPath = path.resolve(__dirname, 'App.svelte');
+      const source = fs.readFileSync(fallbackPath, 'utf-8');
+      expect(source).toMatch(/transition:|in:|out:/);
+    }
   });
 });

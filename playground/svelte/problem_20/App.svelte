@@ -1,64 +1,100 @@
 <script>
-  // TODO: import ProductCard and CartSummary
+  import { untrack } from "svelte";
+  import CartSummary from "./CartSummary.svelte";
+  import ProductCard from "./ProductCard.svelte";
 
   const products = [
-    { id: 1, name: 'Keyboard', price: 79.99 },
-    { id: 2, name: 'Mouse', price: 39.99 },
-    { id: 3, name: 'Monitor', price: 299.99 },
-    { id: 4, name: 'Webcam', price: 59.99 },
+    { id: 1, name: "Keyboard", price: 79.99 },
+    { id: 2, name: "Mouse", price: 39.99 },
+    { id: 3, name: "Monitor", price: 299.99 },
+    { id: 4, name: "Webcam", price: 59.99 },
   ];
 
-  // TODO: declare `cart` as $state([])
-  // TODO: declare `coupon` as $state('')
-  // TODO: declare `cartLog` as $state([])
+  let cart = $state([]);
+  let coupon = $state("");
+  let cartLog = $state([]);
 
-  // TODO: $derived subtotal
-  // TODO: $derived discount (10% if coupon === 'SVELTE10', else 0)
-  // TODO: $derived total
+  let subtotal = $derived(
+    cart.reduce((sum, item) => sum + item.qty * item.price, 0),
+  );
+  let discount = $derived(coupon === "SVELTE10" ? subtotal * 0.1 : 0);
+  let total = $derived(subtotal - discount);
+  $effect(() => {
+    const count = cart.length;
+    if (count>0){
+      untrack(() => {
+        cartLog = [...cartLog, `Cart updated: ${count} items`];
+      });
+    }
+  });
 
-  // TODO: $effect to push "Cart updated: N items" to cartLog when cart changes
-
-  function addToCart(product) {
-    // TODO: if product already in cart (by id), increase qty
-    // else add { ...product, qty: 1 }
+  function addToCart(item) {
+    const index = cart.findIndex((product) => product.id === item.id);
+    if (index !== -1) {
+      cart[index].qty += 1;
+      cart = [...cart];
+    } else {
+      cart = [...cart, { ...item, qty: 1 }];
+    }
   }
 
   function removeFromCart(id) {
-    // TODO: filter cart
+    cart = cart.filter((cartItem) => cartItem.id !== id);
   }
 
   function updateQty(id, qty) {
-    // TODO: find item and set qty (minimum 1)
+    if (qty < 1) return;
+    const index = cart.findIndex((p) => p.id === id);
+    if (index !== -1) {
+      cart[index].qty = qty;
+      cart = [...cart];
+    }
   }
 </script>
 
 <main>
   <h1>Tech Shop</h1>
 
-  <!-- TODO: cart count badge <span data-testid="cart-count"> -->
+  <span data-testid="cart-count">Show total item count: {cart.length}</span>
 
   <section class="products">
-    <!-- TODO: {#each products as product}
-         <ProductCard
-           {...product}
-           inCart={cart.some(c => c.id === product.id)}
-           onAddToCart={addToCart}
-         />
-         {/each}
-    -->
+    {#each products as product}
+      <ProductCard
+        {...product}
+        inCart={cart.some((c) => c.id === product.id)}
+        onAddToCart={addToCart}
+      />
+    {/each}
   </section>
 
-  <!-- TODO: <CartSummary
-       {cart} {coupon} {subtotal} {discount} {total}
-       onRemove={removeFromCart}
-       onUpdateQty={updateQty}
-       onCouponChange={(v) => coupon = v}
-  /> -->
+  <CartSummary
+    {cart}
+    {coupon}
+    {subtotal}
+    {discount}
+    {total}
+    onRemove={removeFromCart}
+    onUpdateQty={updateQty}
+    onCouponChange={(v) => (coupon = v)}
+  />
 
-  <!-- TODO: <ul data-testid="cart-log"> showing each log entry </ul> -->
+  <ul data-testid="cart-log">
+    {#each cartLog as entry}
+      <li>{entry}</li>
+    {/each}
+  </ul>
 </main>
 
 <style>
-  main { max-width: 900px; margin: 0 auto; padding: 1rem; }
-  .products { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0; }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  .products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
 </style>

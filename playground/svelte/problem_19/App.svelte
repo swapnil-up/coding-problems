@@ -1,30 +1,32 @@
 <script>
-  // TODO: import fly from 'svelte/transition'
+import {fly} from 'svelte/transition'
 
   const words = ['Svelte', 'Reactive', 'Compiled', 'Elegant', 'Fast'];
 
-  // TODO: declare `index` as $state(0)
-  // TODO: declare `word` as $derived(words[index])
+  let index =$state(0)
+  let word= $derived(words[index])
 
   function prev() {
-    // TODO: decrement index, but not below 0
+    if (index<1) return;
+    index--
   }
 
   function next() {
-    // TODO: increment index, but not above words.length - 1
+    if (index>=words.length - 1) return;
+    index++
   }
 </script>
 
 <div class="container">
-  <!-- TODO: wrap the h2 in {#key word} so the transition re-fires on each change -->
-  <!-- <h2 transition:fly={{ y: -30, duration: 400 }}>{word}</h2> -->
-
+{#key word}
+  <h2 transition:fly={{y:-30, duration: 0}}>{word}</h2>
+{/key}
   <div class="controls">
-    <!-- TODO: Previous button (calls prev()) -->
-    <!-- TODO: Next button (calls next()) -->
+    <button onclick={()=>prev()}>Previous</button>
+    <button onclick={()=>next()}>Next</button>
   </div>
 
-  <!-- TODO: <p data-testid="info">{index + 1} / {words.length}</p> -->
+  <p data-testid="info">{index + 1} / {words.length}</p>
 </div>
 
 <style>
