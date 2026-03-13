@@ -32,6 +32,12 @@ npm test
 npm run test:watch -- problem_05
 ```
 
+## Running server
+```bash
+npx vite
+```
+For the specific file change the file path in the main.js
+
 ## Problem List
 
 | # | Topic | Concepts |
