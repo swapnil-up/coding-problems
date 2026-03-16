@@ -58,45 +58,59 @@ HINTS:
 
 from fastapi import FastAPI, Depends
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base
 from datetime import datetime
 from pydantic import BaseModel
+import os
 
 # Database setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, "test.db")
 
-# TODO: Create engine
-# Your code here
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{db_path}"
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL,
+    connect_args={"check_same_thread" : False},
+    poolclass=StaticPool,
+)
 
-# TODO: Create SessionLocal class
-# Your code here
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# TODO: Create Base class
-# Your code here
+Base = declarative_base()
 
-# Database models
-# TODO: Create User model
-# Your code here
+class User(Base):
+    __tablename__="users"
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(255), unique=True, nullable=False, index=True)
+    hashed_password = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.now)
+    
+    conversations = relationship("Conversation", back_populates="user")
 
-# TODO: Create Conversation model
-# Your code here
+class Conversation(Base): 
+    __tablename__= "conversations"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    title = Column(String(255))
+    created_at = Column(DateTime, default=datetime.now)
+    user = relationship("User", back_populates="conversations")
 
-# Dependency
 def get_db():
     """
     Database session dependency.
     Yields a session and ensures it's closed after use.
     """
-    # TODO: Implement this
-    # Hint: Use try/finally to ensure session closes
-    pass
+    db = SessionLocal()
+    try: 
+        yield db
+    finally:
+        db.close()
 
 # Initialize database
 def init_db():
     """Create all tables in the database."""
-    # TODO: Implement this
-    # Hint: Base.metadata.create_all(bind=engine)
-    pass
+    Base.metadata.create_all(bind=engine)
 
 # Pydantic schemas
 class UserCreate(BaseModel):
@@ -119,8 +133,15 @@ app = FastAPI()
 def on_startup():
     init_db()
 
-# TODO: Create POST endpoint at "/users"
-# Use get_db dependency to get database session
-# Create User instance, add to session, commit, refresh
-# Return the user
-# Your code here
+@app.post("/users", response_model=UserResponse)
+def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
+    new_user = User(
+        email = user_data.email, 
+        hashed_password = user_data.password
+    )
+    db.add(new_user)
+    db.commit()
+    
+
+    db.refresh(new_user)
+    return new_user

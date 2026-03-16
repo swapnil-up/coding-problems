@@ -65,7 +65,7 @@ HINTS:
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base
+from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base, Mapped, mapped_column
 from datetime import datetime
 from pydantic import BaseModel
 from typing import List, Optional
@@ -86,10 +86,10 @@ class User(Base):
 
 class Conversation(Base):
     __tablename__ = "conversations"
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), index=True)
-    title = Column(String(255))
-    created_at = Column(DateTime, default=datetime.utcnow)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id"), index=True)
+    title: Mapped[str] = mapped_column(String(255))
+    created_at: Mapped[int] = mapped_column(DateTime, default=datetime.utcnow)
     user = relationship("User")
 
 def get_db():
@@ -126,20 +126,47 @@ app = FastAPI()
 def on_startup():
     init_db()
 
-# TODO: Implement POST /conversations (status_code=201)
-# Your code here
+@app.post("/conversations", response_model = ConversationResponse, status_code=status.HTTP_201_CREATED)
+def create_convo(convo: ConversationCreate, db:Session = Depends(get_db)):
+    new_convo = Conversation(
+        user_id= convo.user_id,
+        title= convo.title
+    )
+    db.add(new_convo)
+    db.commit()
+    db.refresh(new_convo)
+    return new_convo
 
-# TODO: Implement GET /conversations with optional user_id filter
-# Your code here
+@app.get("/conversations", response_model=List[ConversationResponse])
+def get_convos(user_id: Optional[int]=None, db:Session = Depends(get_db)):
+    query = db.query(Conversation)
+    if user_id:
+        query = query.filter(Conversation.user_id==user_id)
+    return query.all()
 
-# TODO: Implement GET /conversations/{conversation_id}
-# Raise 404 if not found
-# Your code here
+@app.get("/conversations/{convo_id}", response_model=ConversationResponse)
+def get_convo(convo_id: int, db: Session=Depends(get_db)):
+    db_convo = db.query(Conversation).filter(Conversation.id == convo_id).first()
+    if not db_convo:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    return db_convo
 
-# TODO: Implement PUT /conversations/{conversation_id}
-# Raise 404 if not found
-# Your code here
+@app.put("/conversations/{convo_id}", response_model= ConversationResponse)
+def update_convo(convo_id: int, convo_update: ConversationUpdate, db:Session=Depends(get_db)):
+    db_convo = db.query(Conversation).filter(Conversation.id == convo_id).first()
+    if not db_convo: 
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    db_convo.title = convo_update.title
+    db.commit()
+    db.refresh(db_convo)
+    return db_convo
 
-# TODO: Implement DELETE /conversations/{conversation_id} (status_code=204)
-# Raise 404 if not found
-# Your code here
+@app.delete("/conversations/{convo_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_convo(convo_id: int, db:Session=Depends(get_db)):
+    db_convo = db.query(Conversation).filter(Conversation.id == convo_id).first()
+    if not db_convo: 
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    db.delete(db_convo)
+    db.commit()
+    return None
+

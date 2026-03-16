@@ -73,7 +73,7 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Foreign
 from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base
 from datetime import datetime
 from pydantic import BaseModel, Field
-from typing import List
+from typing import List, Annotated
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
@@ -96,8 +96,14 @@ class Conversation(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     user = relationship("User")
 
-# TODO: Create Message model
-# Your code here
+class Message(Base):
+    __tablename__ = "messages"
+    id = Column(Integer, primary_key=True)
+    conversation_id = Column(Integer, ForeignKey("conversations.id"))
+    content = Column(Text)
+    role = Column(String)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    conversation = relationship("Conversation")
 
 def get_db():
     db = SessionLocal()
@@ -137,12 +143,31 @@ app = FastAPI()
 def on_startup():
     init_db()
 
-# TODO: Implement POST /messages (status_code=201)
-# Validate that role is either "user" or "assistant"
-# Your code here
+@app.post("/messages", status_code=status.HTTP_201_CREATED, response_model=MessageResponse)
+def create_msg(message:MessageCreate, db:Session = Depends(get_db)):
+    convo = db.query(Conversation).filter(Conversation.id == message.conversation_id).first()
+    if not convo:
+        raise HTTPException(status_code=404, detail="Conversation not found")
+    new_message = Message(
+        conversation_id = message.conversation_id,
+        content = message.content,
+        role = message.role
+    )
+    db.add(new_message)
+    db.commit()
+    db.refresh(new_message)
+    return new_message
 
-# TODO: Implement GET /conversations/{conversation_id}/messages
-# With pagination (limit, offset)
-# Return total count, messages, limit, offset
-# Order by created_at ASC
-# Your code here
+
+@app.get("/conversations/{conversation_id}/messages", response_model=MessageListResponse)
+def get_msg(conversation_id: int, limit: Annotated[int, Query(le=100)]=50, offset: int = 0, db:Session=Depends(get_db)):
+
+    query = db.query(Message).filter(Message.conversation_id == conversation_id)
+    total=query.count()
+    messages = query.order_by(Message.created_at.asc()).limit(limit).offset(offset).all()
+    return {
+        "messages": messages,
+        "total": total,
+        "limit": limit,
+        "offset": offset
+    }

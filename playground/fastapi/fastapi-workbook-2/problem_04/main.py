@@ -15,7 +15,7 @@ REQUIREMENTS:
 1. Initialize Alembic in your project
 2. Configure alembic.ini and env.py to use your database
 3. Create an initial migration for User and Conversation models
-4. Add a new column to User model: "is_active" (Boolean, default=True)
+4. Add a new column to User model: "bio" (Boolean, default=True)
 5. Create a migration for this change
 6. Implement endpoints to test the migration worked
 
@@ -31,7 +31,7 @@ alembic revision --autogenerate -m "Initial migration"
 alembic upgrade head
 
 # Create new migration after model change
-alembic revision --autogenerate -m "Add is_active to users"
+alembic revision --autogenerate -m "Add bio to users"
 
 # Apply new migration
 alembic upgrade head
@@ -39,11 +39,11 @@ alembic upgrade head
 
 ENDPOINTS TO IMPLEMENT:
 - GET /migration-status
-  - Returns: {"current_revision": str, "is_active_column_exists": bool}
+  - Returns: {"current_revision": str, "bio_column_exists": bool}
   
 - POST /users (updated from Problem 01)
-  - Now includes is_active field
-  - Body: {"email": str, "password": str, "is_active": bool} (is_active optional, default=True)
+  - Now includes bio field
+  - Body: {"email": str, "password": str, "bio": bool} (bio optional, default=True)
 
 PRODUCTION NOTES:
 - **Zero-downtime migrations**: Test migrations thoroughly before production
@@ -78,12 +78,12 @@ target_metadata = Base.metadata
 EXAMPLE MIGRATION FILE:
 ```python
 def upgrade():
-    op.add_column('users', sa.Column('is_active', sa.Boolean(), nullable=True))
-    op.execute("UPDATE users SET is_active = true WHERE is_active IS NULL")
-    op.alter_column('users', 'is_active', nullable=False)
+    op.add_column('users', sa.Column('bio', sa.Boolean(), nullable=True))
+    op.execute("UPDATE users SET bio = true WHERE bio IS NULL")
+    op.alter_column('users', 'bio', nullable=False)
 
 def downgrade():
-    op.drop_column('users', 'is_active')
+    op.drop_column('users', 'bio')
 ```
 
 HINTS:
@@ -93,25 +93,27 @@ HINTS:
 - Test both upgrade and downgrade
 """
 
+from typing import Optional
+
 from fastapi import FastAPI, Depends
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Boolean, inspect
 from sqlalchemy.orm import Session, sessionmaker, relationship, declarative_base
 from datetime import datetime
 from pydantic import BaseModel
+from alembic.migration import MigrationContext
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
 engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-# Models - UPDATED with is_active field
+# Models - UPDATED with bio field
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String(255), unique=True, index=True)
     hashed_password = Column(String)
-    # TODO: Add is_active column (Boolean, default=True, not nullable)
-    # Your code here
+    bio = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Conversation(Base):
@@ -133,12 +135,12 @@ def get_db():
 class UserCreate(BaseModel):
     email: str
     password: str
-    is_active: bool = True
+    bio: Optional[str] = None
 
 class UserResponse(BaseModel):
     id: int
     email: str
-    is_active: bool
+    bio: Optional[str] = None
     created_at: datetime
     
     class Config:
@@ -146,18 +148,51 @@ class UserResponse(BaseModel):
 
 class MigrationStatus(BaseModel):
     message: str
-    is_active_column_exists: bool
+    bio_column_exists: bool
 
 app = FastAPI()
 
-# TODO: Implement GET /migration-status
-# Check if is_active column exists in User model
-# Return status information
-# Your code here
+@app.get("/migration-status", response_model=MigrationStatus)
+def check_migration():
+    check = column_exists(engine, "User", "bio")
+    version = check_version()
+    return {"current_revision": version, "bio_column_exists": check}
 
-# TODO: Implement POST /users (updated to include is_active)
-# Create user with is_active field
-# Your code here
+def column_exists(engine, table_name, column_name, schema=None):
+    insp = inspect(engine)
+    columns=insp.get_columns(table_name, schema=schema)
+    for col in columns:
+        if col['name']==column_name:
+            return True
+    return False
+    
+def check_version():
+    conn = engine.connect()
+    context = MigrationContext.configure(conn)
+    version = context.get_current_revision()
+    conn.close()
+    return version
+
+
+@app.post("/users", response_model=UserResponse, status_code=201)
+def create_user(user_data: UserCreate, db: Session = Depends(get_db)):
+    new_user = User(
+        email = user_data.email, 
+        hashed_password = user_data.password,
+        bio=user_data.bio
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return new_user
+
+@app.get("/users/{user_id}", response_model=UserResponse)
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 """
 INSTRUCTIONS:
@@ -166,8 +201,8 @@ INSTRUCTIONS:
 3. Edit alembic/env.py: import Base and set target_metadata = Base.metadata
 4. Create initial migration: alembic revision --autogenerate -m "Initial migration"
 5. Apply migration: alembic upgrade head
-6. Add is_active column to User model (uncomment TODO above)
-7. Create migration: alembic revision --autogenerate -m "Add is_active to users"
+6. Add bio column to User model (uncomment TODO above)
+7. Create migration: alembic revision --autogenerate -m "Add bio to users"
 8. Apply migration: alembic upgrade head
 9. Test with pytest
 """

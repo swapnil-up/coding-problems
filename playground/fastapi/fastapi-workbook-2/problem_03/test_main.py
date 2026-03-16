@@ -37,6 +37,7 @@ def setup_function():
 
 def teardown_function():
     Base.metadata.drop_all(bind=engine)
+    engine.dispose()
     if os.path.exists("test_db.db"):
         os.remove("test_db.db")
 
