@@ -174,22 +174,113 @@ class BatchMessagesResponse(BaseModel):
 class CascadeDeleteResponse(BaseModel):
     deleted: dict
 
+class ConversationBatchRequest(BaseModel):
+    user_id: int
+    titles: List[str]
+
 app = FastAPI()
 
 @app.on_event("startup")
 def on_startup():
     init_db()
 
-# TODO: Implement POST /conversations/with-message
-# Use transaction to create both conversation and message
-# Rollback if either fails
-# Your code here
+@app.post("/conversations/with-message", response_model=ConversationWithMessageResponse, status_code=status.HTTP_201_CREATED)
+def new_convo_msg(payload: ConversationWithMessageCreate, db: Session=Depends(get_db)):
+    try:
+        user = db.query(User).filter(User.id==payload.user_id).first()
+        if user is None:
+            raise HTTPException(status_code=404, detail="Conversation not found")
 
-# TODO: Implement DELETE /users/{user_id}/cascade
-# Delete user and all related data atomically
-# Your code here
+        convo = Conversation(user_id=payload.user_id, title=payload.title)
+        db.add(convo)
+        db.flush()
 
-# TODO: Implement POST /messages/batch
-# Create multiple messages in single transaction
-# All or nothing - if any fails, rollback all
-# Your code here
+        msg = Message(conversation_id = convo.id, content= payload.first_message)
+        db.add(msg)
+        db.commit()
+        db.refresh(convo)
+        db.refresh(msg)
+        return {"conversation": convo,"message": msg}
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Transaction failed")
+
+@app.delete("/users/{user_id}/cascade", response_model=CascadeDeleteResponse, status_code=200)
+def delete_user_data(user_id: int, db: Session=Depends(get_db)):
+    try:
+        target = db.query(User).filter(User.id==user_id).first()
+        if not target:
+            raise HTTPException(status_code=404, detail="Not Found")
+        convo_id = [c.id for c in db.query(Conversation).filter(Conversation.user_id==user_id).all()]
+        msg_count = db.query(Message).filter(Message.conversation_id.in_(convo_id)).count()
+        convo_count = len(convo_id)
+        db.delete(target)
+        db.commit()
+        return {
+            "deleted": {
+                "user": 1,
+                "conversations": convo_count,
+                "messages": msg_count
+            }
+        }
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Transaction failed")
+
+
+@app.post("/messages/conversation", status_code=201)
+def batch_msg(batch:BatchMessagesRequest, db:Session=Depends(get_db)):
+    try:
+        convo = db.query(Conversation).filter(Conversation.id == batch.conversation_id).first()
+        if not convo:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        new_msg = []
+        for msg in batch.messages:
+            if msg.role not in ["user", "assistant"]:
+                 raise HTTPException(status_code=422, detail="Invalid role")
+            message=Message(
+                conversation_id = batch.conversation_id,
+                content=msg.content,
+                role=msg.role
+            )
+            db.add(message)
+            new_msg.append(message)
+        db.commit()
+        for m in new_msg: db.refresh(m)
+        return new_msg
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Transaction failed")
+
+@app.post("/conversations/batch", status_code=201)
+def batch_create_convos(payload: ConversationBatchRequest, db: Session = Depends(get_db)):
+    try:
+        user = db.query(User).filter(User.id == payload.user_id).first()
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        new_convos = []
+        for title in payload.titles:
+            convo = Conversation(user_id=payload.user_id, title=title)
+            db.add(convo)
+            new_convos.append(convo)
+        
+        db.commit()
+        for c in new_convos: db.refresh(c)
+        return new_convos
+    except HTTPException:
+        db.rollback()
+        raise
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="Transaction failed")
+    

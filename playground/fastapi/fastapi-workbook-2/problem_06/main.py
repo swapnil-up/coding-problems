@@ -81,11 +81,9 @@ async def count_generator(max_count: int) -> AsyncGenerator[str, None]:
     
     Yields SSE-formatted messages.
     """
-    # Your code here
-    # Hint: for i in range(1, max_count + 1):
-    #          await asyncio.sleep(0.1)
-    #          yield f"data: {i}\n\n"
-    pass
+    for i in range(1, max_count + 1):
+      await asyncio.sleep(0.1)
+      yield f"data: {i}\n\n"
 
 # TODO: Implement async generator function for text streaming
 async def text_generator(text: str) -> AsyncGenerator[str, None]:
@@ -94,14 +92,15 @@ async def text_generator(text: str) -> AsyncGenerator[str, None]:
     
     Yields SSE-formatted messages.
     """
-    # Your code here
-    # Hint: words = text.split()
-    pass
+    words = text.split()
+    for word in words:
+       await asyncio.sleep(0.05)
+       yield f"data: {word}\n\n"
 
-# TODO: Implement GET /stream/count
-# Use count_generator and return StreamingResponse
-# Your code here
+@app.get("/stream/count")
+async def get_num(max_count: int=Query(default=10, le=100)):
+  return StreamingResponse(count_generator(max_count), media_type="text/event-stream")
 
-# TODO: Implement GET /stream/text
-# Use text_generator and return StreamingResponse
-# Your code here
+@app.get("/stream/text")
+async def get_text(text: str):
+   return StreamingResponse(text_generator(text), media_type="text/event-stream")

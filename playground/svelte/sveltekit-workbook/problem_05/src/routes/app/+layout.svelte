@@ -2,8 +2,13 @@
   import type { LayoutData } from './$types';
   // TODO: get data and children from $props()
   // let { data, children }: { data: LayoutData; children: any } = $props();
+  let {data, children}: {data: LayoutData; children: any}= $props();
 </script>
-
+<header>
+  {data.user.name}
+  {data.user.email}
+</header>
+{@render children()}
 <!-- TODO: header showing data.user.name and data.user.email -->
 <!-- TODO: nav links to /app/feed and /app/notifications -->
 <!-- TODO: {@render children()} -->

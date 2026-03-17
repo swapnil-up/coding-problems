@@ -9,12 +9,15 @@
 
 <!-- TODO: show success message if form?.success is true -->
 <!-- "Thanks, {form.name}! We'll be in touch." -->
+{#if form?.success}
+<p>Thanks, {form.name}! We'll be in touch.</p>
+{/if}
 
 <!-- 
   TODO: add use:enhance to the form below
   The action="?" means "POST to this page's default action"
 -->
-<form method="POST">
+<form method="POST" use:enhance>
   <label>
     Name
     <input type="text" name="name" required />

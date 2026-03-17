@@ -5,5 +5,10 @@
   // data.feedItems comes from this page's own load function
 </script>
 
+<h1>Feed — welcome back, {data.user.name}</h1>
+{#each data.feedItems as item}
+  {item.title}
+  <br/>
+{/each}
 <!-- TODO: h1 saying "Feed — welcome back, {data.user.name}" -->
 <!-- TODO: list of feed items -->

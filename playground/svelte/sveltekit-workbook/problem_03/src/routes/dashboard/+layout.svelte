@@ -5,9 +5,15 @@
 <div class="layout">
   <aside>
     <!-- TODO: add nav links for Overview, Settings, Profile -->
+     <nav>
+      <a href='/dashboard'>Dashboard</a>
+      <a href='/dashboard/settings'>Settings</a>
+      <a href='/dashboard/profile'>Profile</a>
+     </nav>
   </aside>
 
   <main>
+  {@render children()}
     <!-- TODO: render children here -->
   </main>
 </div>

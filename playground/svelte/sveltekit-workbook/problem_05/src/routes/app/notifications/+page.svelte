@@ -10,5 +10,11 @@
   ];
 </script>
 
+<h1>{data.user.name}</h1>
+{#each notifications as noti}
+  <div style:font-weight={noti.read?'bold':'normal'}>
+    {noti.message}
+  </div>
+{/each}
 <!-- TODO: h1 with user's name -->
 <!-- TODO: list notifications, showing unread ones differently (bold, or a dot) -->

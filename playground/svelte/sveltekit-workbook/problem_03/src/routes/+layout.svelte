@@ -2,10 +2,10 @@
   let { children } = $props();
 </script>
 
-<!-- TODO: add a <nav> with links to "/" (Home) and "/dashboard" (Dashboard) -->
-<!-- Style it simply — just display:flex and a bit of padding is fine -->
-
-<!-- TODO: render the child page here -->
+<nav>
+  <a href="/">Home</a>
+  <a href="/dashboard">Dashboard</a>
+</nav>
 {@render children()}
 
 <style>

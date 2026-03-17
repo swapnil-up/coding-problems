@@ -7,6 +7,10 @@ const products: Record<string, { name: string; price: number }> = {
 };
 
 export const load: PageServerLoad = async ({ params }) => {
-  // TODO: look up products[params.id]
+  console.log("here", params)
+   const chosen = products[params.id]
+   return {
+    product: chosen ?? null
+   }
   // TODO: return { product } — for now if not found, return { product: null }
 };

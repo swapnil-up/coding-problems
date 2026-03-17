@@ -8,7 +8,7 @@
 
 <!-- Add todo form -->
 <!-- TODO: set action="?/create" and add use:enhance -->
-<form method="POST">
+<form method="POST" use:enhance action="?/create">
   <input type="text" name="text" placeholder="New todo..." required />
   <button type="submit">Add</button>
 </form>
@@ -21,13 +21,15 @@
 
       <!-- Toggle form -->
       <!-- TODO: set action="?/toggle", add use:enhance, add hidden input name="id" value={todo.id} -->
-      <form method="POST">
+      <form method="POST" use:enhance action="?/toggle">
+        <input type="hidden" name="id" value={todo.id}>
         <button type="submit">{todo.done ? 'Undo' : 'Done'}</button>
       </form>
 
       <!-- Delete form -->
       <!-- TODO: set action="?/delete", add use:enhance, add hidden input name="id" value={todo.id} -->
-      <form method="POST">
+      <form method="POST" use:enhance action="?/delete">
+      <input type="hidden" name="id" value={todo.id}>
         <button type="submit">Delete</button>
       </form>
     </li>
