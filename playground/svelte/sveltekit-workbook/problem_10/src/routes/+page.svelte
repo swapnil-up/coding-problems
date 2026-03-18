@@ -1,34 +1,66 @@
 <script lang="ts">
-  import type { Note } from '$lib/notes';
+  import type { Note } from "$lib/notes";
 
   let notes = $state<Note[]>([]);
-  let title = $state('');
-  let content = $state('');
-  let error = $state('');
+  let title = $state("");
+  let content = $state("");
+  let error = $state("");
 
   async function loadNotes() {
+    const response = await fetch("/api/notes");
+    if (response.ok) {
+      notes = await response.json();
+    }
     // TODO: fetch GET /api/notes and set notes
   }
 
   async function createNote() {
+    const response = await fetch("/api/notes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title, content }),
+    });
+    if (response.ok) {
+      await loadNotes();
+      title = "";
+      content = "";
+    }
     // TODO: fetch POST /api/notes with JSON body { title, content }
     // On success: reload notes, clear title/content
     // On error: set error message
   }
 
   async function deleteNote(id: string) {
+    async function deleteNote(id: string) {
+      const response = await fetch(`/api/notes/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        await loadNotes();
+      } else {
+        error = "Could not delete note";
+      }
+    }
     // TODO: fetch DELETE /api/notes/{id}
     // On success: reload notes
   }
 
-  $effect(() => { loadNotes(); });
+  $effect(() => {
+    loadNotes();
+  });
 </script>
 
 <h1>Notes</h1>
 
 {#if error}<p class="error">{error}</p>{/if}
 
-<form onsubmit={(e) => { e.preventDefault(); createNote(); }}>
+<form
+  onsubmit={(e) => {
+    e.preventDefault();
+    createNote();
+  }}
+>
   <input bind:value={title} placeholder="Title" required />
   <textarea bind:value={content} placeholder="Content..." required></textarea>
   <button type="submit">Add Note</button>

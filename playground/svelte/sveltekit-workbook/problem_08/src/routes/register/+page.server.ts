@@ -13,16 +13,23 @@ export const actions: Actions = {
     const values = { username, email }; // don't send passwords back
 
     // TODO: validate username (required, 3-20 chars)
-    // if (!username || username.length < 3) errors.username = '...'
+    if (!username || username.length < 3 || username.length >20) errors.username = 'Username between 3 and 20 characters'
 
     // TODO: validate email (required, must contain @)
+    if (!email || !email.includes('@')) errors.email = "Please enter a valid email"
 
     // TODO: validate password (required, min 8 chars)
+    if (!password || password.length<8) errors.password = "required, min 8 chars"
 
     // TODO: validate confirmPassword matches password
+    if (password !=confirmPassword) errors.confirmPassword="passwords don't match"
 
     // TODO: if errors exist, return fail(422, { errors, values })
+    if (Object.keys(errors).length>0){
+      return fail(422, {errors, values})
+    }
 
     // TODO: on success, return { success: true, username }
+    return { success: true, username }
   },
 };

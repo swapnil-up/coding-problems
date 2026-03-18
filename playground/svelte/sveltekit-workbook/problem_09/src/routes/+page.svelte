@@ -8,12 +8,22 @@
 
   async function fetchProducts() {
     loading = true;
+    const url = '/api/products' + (category ? `?category=${category}` : '');
+    const response = await fetch(url);
+    if(response.ok){
+      productList = await response.json();
+    }
     // TODO: fetch '/api/products' + (category ? `?category=${category}` : '')
     // set productList to the result
     loading = false;
   }
 
   async function fetchProduct(id: number) {
+    const url = `/api/products/${id}`
+    const response = await fetch(url);
+    if (response.ok){
+      selectedProduct = await response.json()
+    }
     // TODO: fetch `/api/products/${id}`
     // set selectedProduct to the result
   }
