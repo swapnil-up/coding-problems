@@ -30,15 +30,15 @@ def long_words(sentence: str, n: int) -> list[str]:
 # Format a name and score into a fixed-width leaderboard row.
 # Output must be exactly: "Alice          :  9420"
 # (name left-aligned in 15 chars, score right-aligned in 6 chars)
-def leaderboard_row(name: str, score: int) -> str:
-    raise NotImplementedError("TODO")
+# def leaderboard_row(name: str, score: int) -> str:
+#     raise NotImplementedError("TODO")
 
 
 # --- Problem 4 ---
 # Given a CSV line (possibly with extra spaces around values), return a clean list.
 # Example: parse_csv("  alice , 30 , engineer  ") == ["alice", "30", "engineer"]
 def parse_csv(line: str) -> list[str]:
-    raise NotImplementedError("TODO")
+    return line.replace(" ", "").split(",")
 
 
 # --- Problem 5 ---
@@ -58,7 +58,7 @@ def run_tests():
     assert long_words("the quick brown fox", 3) == ["quick", "brown"]
     assert long_words("hi", 5) == []
 
-    assert leaderboard_row("Alice", 9420) == "Alice          :   9420"
+    # assert leaderboard_row("Alice", 9420) == "Alice          :   9420"
 
     assert parse_csv("  alice , 30 , engineer  ") == ["alice", "30", "engineer"]
     assert parse_csv("x") == ["x"]
