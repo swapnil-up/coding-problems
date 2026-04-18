@@ -1,133 +1,49 @@
-# Personal Scratchpad – Learning, Practice, Experiments
+# Personal Scratchpad
 
-## What This Repository Is
-
-This repository is a living workspace rather than a polished portfolio.
-
-It serves as a single place where I:
-
-* Practice fundamentals
-* Solve coding problems
-* Take learning notes
-* Experiment with ideas
-* Build small, focused mini-projects to deeply understand specific concepts
-
-The structure reflects *how I actually learn*: iteratively and by oscillating between theory, practice, and experimentation.
+A place to practice, learn, and figure things out. Not a portfolio.
 
 ---
 
-## How to Read This Repo
+## Directories
 
-This repo is not meant to be consumed top-to-bottom.
-
-Different directories represent different modes of learning:
-
-* Deliberate practice
-* Skill reinforcement
-* Note-taking
-* Focused problem-solving
-* Exploratory mini-projects
-
-Each folder is intentionally lightweight and mostly self-contained.
+| Folder | What it's for |
+|--------|-------------|
+| `leetcode/` | LeetCode problems |
+| `HackerRank/` | HackerRank warmups |
+| `CodeWarsSolutions/` | CodeWars katas |
+| `learning-notes/` | TILs, course notes, random learnings |
+| `workbooks/` | Drills and practice sets |
+| `miniprojects/` | Small projects for understanding concepts |
 
 ---
 
-## Directory Overview
+## Current State
 
-### `CodeWarsSolutions/`
+| Section | Count |
+|---------|-------|
+| LeetCode | 15 |
+| HackerRank | 23 |
+| CodeWars | ~ |
+| TILs | 12 |
+| Workbooks | 2 |
+| Mini-projects | 3 |
 
----
-
-### `HackerRank/`
-
----
-
-### `learning-notes/`
-
-Structured notes collected over time.
-
-Contains:
-
-* Course notes
-* Laravel-specific learning
-* TILs (Today I Learned)
-* University lecture notes
-
-Purpose:
-
-* Externalize understanding
-* Capture insights before they fade
-* Build a personal reference library
+### Recent Activity
+<!-- Auto-updated by .githooks/pre-commit -->
 
 ---
 
-### `workbooks/`
+## Setup
 
-Practice sets and exercises grouped by topic.
+Git hook runs on commit to remind you to update the state above.
 
-Examples:
-
-* Data structures and algorithms
-* Python practice
-
-Purpose:
-
-* Repetition with intent
-* Turning theory into executable understanding
-
-These are closer to notebooks or drills than finished code.
-
----
-
-### `miniprojects/`
-
-Small, focused projects designed to deeply explore a **single idea or constraint**.
-
-Examples:
-
-* Passport photo validation using deterministic computer vision heuristics
-
-Purpose:
-
-* Drill one concept at a time
-* Explore real-world edge cases
-* Build intuition through constraints
-
-Each mini-project typically includes its own README explaining the problem, approach, and trade-offs.
+**To disable:**
+```bash
+git config core.hooksPath .git/hooks
+```
 
 ---
 
 ## Philosophy
 
-This repository reflects *progress*, not just outcomes.
-
----
-
-## What This Is Not
-
-* Not a showcase of best practices everywhere
-* Not a curated portfolio
-* Not production-grade across the board
-
-Instead, it is an honest record of how I think, learn, and iterate.
-
----
-
-## Why Keep Everything Together
-
-Keeping problems, notes, drills, and experiments in one place makes it easier to:
-
-* Revisit earlier mental models
-* Connect ideas across domains
-
-This repo is less about presentation and more about continuity.
-
----
-
-## Final Note
-
-If you’re browsing this as an external reader:
-
-* Start with `miniprojects/`
-* Then skim `learning-notes/`
-* Treat everything else as raw practice material
+This repo tracks that I'm still learning, even when nothing gets committed. It's messy, unfinished, and that's the point.

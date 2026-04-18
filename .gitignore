@@ -1,3 +1,40 @@
+# Folders
 trash/
 node_modules/
 .svelte-kit/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+*.egg
+
+# OS
+.DS_Store
+Thumbs.db
+*~
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build / dist
+build/
+dist/
+
+# Logs
+*.log
+log.txt
+
+# Databases
+*.db
+*.sqlite

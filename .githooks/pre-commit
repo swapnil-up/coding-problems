@@ -1,0 +1,22 @@
+#!/bin/bash
+# pre-commit hook for repo-status updates
+# This hook runs before a commit is finalized
+
+# To disable: delete this file or run: git config core.hooksPath .git/hooks
+
+# Check if files in tracked folders changed
+CHANGED_FILES=$(git diff --cached --name-only)
+
+TIL_CHANGED=$(echo "$CHANGED_FILES" | grep -E "^learning-notes/TIL/" || true)
+KEY_DIRS_CHANGED=$(echo "$CHANGED_FILES" | grep -E "^(leetcode/|HackerRank/|CodeWarsSolutions/|workbooks/|miniprojects/)" || true)
+
+if [ -n "$TIL_CHANGED" ] || [ -n "$KEY_DIRS_CHANGED" ]; then
+    echo "Detected changes in learning folders:"
+    [ -n "$TIL_CHANGED" ] && echo "  TIL: $TIL_CHANGED"
+    [ -n "$KEY_DIRS_CHANGED" ] && echo "  Problems/Workbooks: $KEY_DIRS_CHANGED"
+    echo ""
+    echo "Consider running: opencode --skill repo-status --update"
+    echo "(This is a reminder, not blocking your commit)"
+fi
+
+exit 0
