@@ -1,7 +1,6 @@
 import type { Cell, CellType, World } from './data';
 
 export function wrapCoordinate(value: number, max: number): number {
-	((value % max) + max) % max;
 	return ((value % max) + max) % max;
 }
 

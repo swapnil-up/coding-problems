@@ -9,6 +9,11 @@
 	let isRunning = $state(false);
 	let tickRate = $state(TICK_RATE);
 	let seed = $state(12345);
+	
+	function getNextRandomDir() {
+		const dirs = [{ x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 }];
+		return dirs[Math.floor(Math.random() * dirs.length)];
+	}
 	let tickInterval: ReturnType<typeof setInterval> | null = null;
 
 	let settings = $state<WorldSettings>({ ...DEFAULT_SETTINGS });
@@ -17,7 +22,7 @@
 		if (tickInterval) clearInterval(tickInterval);
 		tickInterval = setInterval(() => {
 			if (isRunning) {
-				world = nextTick(world, seed + world.tick);
+				world = nextTick(world, getNextRandomDir);
 				history = [...history.slice(-(HISTORY_SIZE - 1)), world];
 			}
 		}, 1000 / tickRate);
@@ -33,7 +38,7 @@
 	}
 
 	function step() {
-		world = nextTick(world, seed + world.tick);
+		world = nextTick(world, getNextRandomDir);
 		history = [...history.slice(-(HISTORY_SIZE - 1)), world];
 	}
 

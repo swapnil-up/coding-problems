@@ -1,5 +1,13 @@
 import type { Cell, World, WorldSettings } from './data';
 import { DEFAULT_SETTINGS, GRID_SIZE, INITIAL_SEEKERS, INITIAL_PLANTS } from './data';
+import { wrapCoordinate, getNeighbors, findCellAt, applyEntropy } from './physics';
+
+function seededRandom(seed: number): () => number {
+	return function () {
+		seed = (seed * 1103515245 + 12345) & 0x7fffffff;
+		return seed / 0x7fffffff;
+	};
+}
 
 export function createInitialWorld(
 	width: number = GRID_SIZE,
@@ -36,24 +44,10 @@ export function createInitialWorld(
 	return { tick: 0, width, height, cells, settings };
 }
 
-function seededRandom(seed: number): () => number {
-	return function() {
-		seed = (seed * 1103515245 + 12345) & 0x7fffffff;
-		return seed / 0x7fffffff;
-	};
-}
-
-function wrap(value: number, max: number): number {
-	return ((value % max) + max) % max;
-}
-
-export function nextTick(world: World, seed: number = 12345): World {
-	const random = seededRandom(seed);
-	const randomDirs = [
-		{ x: -1, y: 0 }, { x: 1, y: 0 }, { x: 0, y: -1 }, { x: 0, y: 1 }
-	];
-	const getRandomDir = () => randomDirs[Math.floor(random() * randomDirs.length)];
-
+export function nextTick(
+	world: World,
+	randomDir: () => { x: number; y: number }
+): World {
 	const posMap = new Map<string, Cell>();
 	for (const c of world.cells) {
 		posMap.set(`${c.x},${c.y}`, c);
@@ -72,14 +66,9 @@ export function nextTick(world: World, seed: number = 12345): World {
 
 		// Seekers eat plants
 		if (cell.type === 'SEEKER') {
-			const neighbors = [
-				{ x: wrap(cell.x - 1, world.width), y: cell.y },
-				{ x: wrap(cell.x + 1, world.width), y: cell.y },
-				{ x: cell.x, y: wrap(cell.y - 1, world.height) },
-				{ x: cell.x, y: wrap(cell.y + 1, world.height) }
-			];
+			const neighbors = getNeighbors(cell.x, cell.y, world.width, world.height);
 			for (const n of neighbors) {
-				const neighbor = posMap.get(`${n.x},${n.y}`);
+				const neighbor = findCellAt(world.cells, n.x, n.y);
 				if (neighbor && neighbor.type === 'PLANT' && !deadIds.has(neighbor.id)) {
 					current = { ...current, energy: Math.min(100, current.energy + 20) };
 					deadIds.add(neighbor.id);
@@ -90,17 +79,16 @@ export function nextTick(world: World, seed: number = 12345): World {
 
 		// Move
 		if (current.type === 'SEEKER') {
-			const dir = getRandomDir();
-			const newX = wrap(current.x + dir.x, world.width);
-			const newY = wrap(current.y + dir.y, world.height);
+			const dir = randomDir();
+			const newX = wrapCoordinate(current.x + dir.x, world.width);
+			const newY = wrapCoordinate(current.y + dir.y, world.height);
 			if (!posMap.has(`${newX},${newY}`) || posMap.get(`${newX},${newY}`)?.id === current.id) {
 				current = { ...current, x: newX, y: newY };
 			}
 		}
 
-		// Entropy
-		const decay = current.type === 'SEEKER' ? 2 : 1;
-		current = { ...current, energy: Math.max(0, current.energy - decay) };
+		// Entropy - use physics calculation
+		current = applyEntropy(current, world.settings);
 
 		if (current.energy > 0) {
 			survivors.push(current);
