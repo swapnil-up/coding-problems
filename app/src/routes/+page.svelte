@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Canvas from '$lib/components/Canvas.svelte';
 	import { createInitialWorld, nextTick } from '$lib/engine/universe';
-	import { TICK_RATE, HISTORY_SIZE, DEFAULT_SETTINGS } from '$lib/engine/data';
+	import { TICK_RATE, HISTORY_SIZE, DEFAULT_SETTINGS, GRID_SIZE } from '$lib/engine/data';
 	import type { World, WorldSettings } from '$lib/engine/data';
 
 	let world = $state(createInitialWorld());
@@ -24,6 +24,10 @@
 			if (isRunning) {
 				world = nextTick(world, getNextRandomDir);
 				history = [...history.slice(-(HISTORY_SIZE - 1)), world];
+				
+				if (world.cells.length === 0) {
+					isRunning = false;
+				}
 			}
 		}, 1000 / tickRate);
 	}
@@ -33,7 +37,7 @@
 	}
 
 	function reset() {
-		world = createInitialWorld(100, 100, settings, seed);
+		world = createInitialWorld(GRID_SIZE, GRID_SIZE, settings, seed);
 		history = [];
 	}
 
@@ -129,8 +133,10 @@
 </div>
 
 <style>
-	:global(body) {
+	:global(html), :global(body) {
 		margin: 0;
+		padding: 0;
+		height: 100%;
 		font-family: system-ui, sans-serif;
 		background: #0d0d0d;
 		color: #eee;
@@ -139,10 +145,12 @@
 	.container {
 		display: flex;
 		height: 100vh;
+		overflow: hidden;
 	}
 
 	.sidebar {
 		width: 280px;
+		flex-shrink: 0;
 		padding: 1rem;
 		background: #1a1a1a;
 		overflow-y: auto;

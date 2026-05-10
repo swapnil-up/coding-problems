@@ -1,5 +1,6 @@
 import type { Cell, World, WorldSettings } from './data';
 import { DEFAULT_SETTINGS, GRID_SIZE, INITIAL_SEEKERS, INITIAL_PLANTS } from './data';
+export { GRID_SIZE } from './data';
 import { wrapCoordinate, getNeighbors, findCellAt, applyEntropy } from './physics';
 
 function seededRandom(seed: number): () => number {
