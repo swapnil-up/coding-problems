@@ -1,3 +1,13 @@
+---
+name: repo-status
+description: Create consistent releases and changelogs
+license: MIT
+compatibility: opencode
+metadata:
+  audience: maintainers
+  workflow: github
+---
+
 # repo-status Skill
 
 Auto-updates README and TIL index.
