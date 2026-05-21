@@ -1,0 +1,12 @@
+# Dependencies
+app/node_modules/
+
+# Build artifacts
+app/.svelte-kit/
+app/build/
+app/dist/
+
+# OS files
+.DS_Store
+
+docs/
