@@ -1,0 +1,10 @@
+# Private config — copy bookmarks_config.example.py to this file and customize
+bookmarks_config.py
+
+# Your Firefox bookmark export
+bookmarks.html
+
+# All generated output files
+bookmarks-organized.html
+bookmarks-*.html
+__pycache__/
