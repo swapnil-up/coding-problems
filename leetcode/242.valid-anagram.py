@@ -7,12 +7,15 @@
 # @lc code=start
 class Solution:
     def isAnagram(self, s: str, t: str) -> bool:
-        if len(s) != len(t):
+        s1=list(s)
+        t1=list(t)
+        if len(s1) != len(t1):
             return False
-        for i in range(len(s)):
-            if s[i] in t:
-                t = t.replace(s[i], "", 1)
-        return True if t=="" else False
+        for i in s1:
+            if i not in t1:
+                return False
+            t1.remove(i)
+        return True
         
 if __name__ == "__main__":
     result=Solution().isAnagram("ab", "a")
