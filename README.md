@@ -8,11 +8,9 @@ A place to practice, learn, and figure things out. Not a portfolio.
 
 | Folder | What it's for |
 |--------|-------------|
-| `leetcode/` | LeetCode problems |
-| `HackerRank/` | HackerRank warmups |
-| `CodeWarsSolutions/` | CodeWars katas |
+| `challenges/` | LeetCode, HackerRank, CodeWars — all algo practice |
+| `workbooks/` | Framework drills (FastAPI, Svelte, Vue) + DSA, Python, PHP/SQL |
 | `learning-notes/` | TILs, course notes, random learnings |
-| `workbooks/` | Drills and practice sets |
 | `miniprojects/` | Small projects for understanding concepts |
 
 ---
@@ -21,12 +19,12 @@ A place to practice, learn, and figure things out. Not a portfolio.
 
 | Section | Count |
 |---------|-------|
-| LeetCode | 15 |
-| HackerRank | 23 |
-| CodeWars | ~ |
+| Challenges (LeetCode) | 15 |
+| Challenges (HackerRank) | 23 |
+| Challenges (CodeWars) | ~ |
 | TILs | 12 |
-| Workbooks | 2 |
-| Mini-projects | 3 |
+| Workbooks | 6 categories |
+| Mini-projects | 4 |
 
 ### Recent Activity
 <!-- Auto-updated by .githooks/pre-commit -->
