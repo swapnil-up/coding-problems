@@ -1,0 +1,159 @@
+What command shows all available artisan commands?|php artisan list|You can also use php artisan to see the list|Laravel::commands
+How do you see help for a specific artisan command?|php artisan help commandname|Example: php artisan help make:model|Laravel::commands
+What command clears all application caches at once?|php artisan optimize:clear|This clears config, route, view, and application cache|Laravel::commands
+What command optimizes the application for production?|php artisan optimize|This caches config, routes, and views for better performance|Laravel::commands
+How do you run Laravel in maintenance mode?|php artisan down|Users will see a maintenance page. You can specify a secret to bypass it|Laravel::commands
+How do you bring Laravel out of maintenance mode?|php artisan up|Takes the application out of maintenance mode|Laravel::commands
+What flag allows specific IPs to bypass maintenance mode?|php artisan down --secret=mysecret|Users can access via yoursite.com/mysecret to bypass maintenance mode|Laravel::commands
+How do you clear the application cache?|php artisan cache:clear|Clears the application cache, not config or route cache|Laravel::commands
+How do you clear the configuration cache?|php artisan config:clear|Clears cached config files|Laravel::commands
+How do you cache configuration for production?|php artisan config:cache|Combines all config files into one cached file for performance|Laravel::commands
+How do you clear the route cache?|php artisan route:clear|Removes the cached route file|Laravel::commands
+How do you cache routes for production?|php artisan route:cache|Caches all routes for faster route registration. Don't use with closure routes|Laravel::commands
+How do you view all registered routes?|php artisan route:list|Shows all routes with their methods, URIs, names, and actions|Laravel::commands
+How do you filter routes by name?|php artisan route:list --name=user|Shows only routes containing 'user' in their name|Laravel::commands
+How do you filter routes by URI?|php artisan route:list --path=api|Shows only routes containing 'api' in their path|Laravel::commands
+How do you filter routes by method?|php artisan route:list --method=POST|Shows only POST routes|Laravel::commands
+How do you clear the view cache?|php artisan view:clear|Removes all compiled view files|Laravel::commands
+How do you cache views?|php artisan view:cache|Pre-compiles all Blade views for better performance|Laravel::commands
+What command creates a basic controller?|php artisan make:controller UserController|Creates an empty controller class|Laravel::commands
+What flag creates a resource controller?|php artisan make:controller PostController --resource|Creates controller with index, create, store, show, edit, update, destroy methods|Laravel::commands
+What flag creates an API resource controller?|php artisan make:controller PostController --api|Creates controller with index, store, show, update, destroy (no create/edit)|Laravel::commands
+What flag creates a controller with a model binding?|php artisan make:controller PostController --model=Post|Creates a resource controller with Post model type-hinted in methods|Laravel::commands
+What flag creates an invokable controller?|php artisan make:controller ShowProfile --invokable|Creates a controller with a single __invoke method|Laravel::commands
+How do you create a resource controller with model and requests?|php artisan make:controller PostController --model=Post --resource --requests|Creates controller with model binding and generates StorePostRequest and UpdatePostRequest|Laravel::commands
+What command creates a controller in a subdirectory?|php artisan make:controller Admin/UserController|Creates controller in App\Http\Controllers\Admin namespace|Laravel::commands
+What command creates a model?|php artisan make:model Post|Creates a model class in App\Models|Laravel::commands
+What flag creates a model with a migration?|php artisan make:model Post -m|Creates both model and migration file|Laravel::commands
+What flag creates a model with a factory?|php artisan make:model Post -f|Creates both model and factory|Laravel::commands
+What flag creates a model with a seeder?|php artisan make:model Post -s|Creates both model and seeder|Laravel::commands
+What flag creates a model with a controller?|php artisan make:model Post -c|Creates model and a basic controller|Laravel::commands
+What flag creates a model with all related files?|php artisan make:model Post -a|Creates model with migration, factory, seeder, and resource controller|Laravel::commands
+What's the shorthand for creating model with migration, factory, and seeder?|php artisan make:model Post -mfs|Same as using --migration --factory --seed flags|Laravel::commands
+What flag creates a resource controller with the model?|php artisan make:model Post -cr|Creates model and resource controller|Laravel::commands
+What flag creates an API resource controller with the model?|php artisan make:model Post --api|Creates model and API resource controller|Laravel::commands
+What command creates a model with a pivot flag?|php artisan make:model RoleUser --pivot|Creates a pivot model for many-to-many relationships|Laravel::commands
+How do you force create a model that already exists?|php artisan make:model Post --force|Overwrites the existing model file|Laravel::commands
+What command creates a migration?|php artisan make:migration create_posts_table|Creates a timestamped migration file|Laravel::commands
+What flag creates a migration to create a table?|php artisan make:migration create_posts_table --create=posts|Generates migration with Schema::create boilerplate for posts table|Laravel::commands
+What flag creates a migration to modify a table?|php artisan make:migration add_status_to_posts --table=posts|Generates migration with Schema::table boilerplate for posts table|Laravel::commands
+How do you run all pending migrations?|php artisan migrate|Executes all migrations that haven't been run yet|Laravel::commands
+How do you rollback the last batch of migrations?|php artisan migrate:rollback|Rolls back the last batch of migrations|Laravel::commands
+How do you rollback a specific number of migrations?|php artisan migrate:rollback --step=3|Rolls back the last 3 migrations|Laravel::commands
+How do you rollback all migrations?|php artisan migrate:reset|Rolls back all migrations|Laravel::commands
+How do you rollback and re-run all migrations?|php artisan migrate:refresh|Equivalent to migrate:reset followed by migrate|Laravel::commands
+How do you refresh migrations and seed the database?|php artisan migrate:refresh --seed|Rolls back, re-runs migrations, and seeds the database|Laravel::commands
+How do you drop all tables and re-run migrations?|php artisan migrate:fresh|Drops all tables and runs all migrations from scratch|Laravel::commands
+How do you see migration status?|php artisan migrate:status|Shows which migrations have run and which are pending|Laravel::commands
+How do you run migrations in production safely?|php artisan migrate --force|Required flag to run migrations in production environment|Laravel::commands
+What command creates a migration for a pivot table?|php artisan make:migration create_post_tag_table|Laravel convention: alphabetically ordered singular model names|Laravel::commands
+What command creates a seeder?|php artisan make:seeder UserSeeder|Creates a seeder class|Laravel::commands
+How do you run all seeders?|php artisan db:seed|Runs the DatabaseSeeder class|Laravel::commands
+How do you run a specific seeder?|php artisan db:seed --class=UserSeeder|Runs only the specified seeder class|Laravel::commands
+How do you force seed in production?|php artisan db:seed --force|Required to seed in production environment|Laravel::commands
+What command creates a factory?|php artisan make:factory PostFactory|Creates a factory for generating fake model data|Laravel::commands
+How do you create a factory for a specific model?|php artisan make:factory PostFactory --model=Post|Creates factory with the model relationship defined|Laravel::commands
+What command creates a form request?|php artisan make:request StorePostRequest|Creates a form request class with authorize() and rules() methods|Laravel::commands
+How are request names typically named?|StorePostRequest or UpdatePostRequest|Convention is Action + Model + Request|Laravel::commands
+What command creates an API resource?|php artisan make:resource PostResource|Creates a JSON API resource for transforming models|Laravel::commands
+What command creates a resource collection?|php artisan make:resource PostCollection|Creates a resource collection for transforming multiple models|Laravel::commands
+How do you create both resource and collection at once?|php artisan make:resource Post --collection|Creates PostResource and PostCollection|Laravel::commands
+What command creates middleware?|php artisan make:middleware CheckAge|Creates a middleware class with handle() method|Laravel::commands
+Where are middleware files stored?|app/Http/Middleware|Default location for all middleware|Laravel::commands
+What command creates a policy?|php artisan make:policy PostPolicy|Creates an authorization policy class|Laravel::commands
+How do you create a policy with model binding?|php artisan make:policy PostPolicy --model=Post|Creates policy with CRUD methods pre-filled for Post model|Laravel::commands
+What command creates an event?|php artisan make:event UserRegistered|Creates an event class|Laravel::commands
+What command creates a listener?|php artisan make:listener SendWelcomeEmail|Creates an event listener class|Laravel::commands
+How do you create a listener for a specific event?|php artisan make:listener SendWelcomeEmail --event=UserRegistered|Creates listener with the event type-hinted in handle()|Laravel::commands
+What command creates a job?|php artisan make:job ProcessPodcast|Creates a queueable job class|Laravel::commands
+What is the default interface for jobs?|ShouldQueue|Jobs implement this to be queued|Laravel::commands
+What command creates a mailable class?|php artisan make:mail WelcomeEmail|Creates a mailable class for sending emails|Laravel::commands
+How do you create a markdown mailable?|php artisan make:mail WelcomeEmail --markdown=emails.welcome|Creates mailable with markdown view|Laravel::commands
+What command creates a notification?|php artisan make:notification InvoicePaid|Creates a notification class|Laravel::commands
+How do you create a markdown notification?|php artisan make:notification InvoicePaid --markdown=notifications.invoice|Creates notification with markdown template|Laravel::commands
+What command creates a custom artisan command?|php artisan make:command SendEmails|Creates a custom console command|Laravel::commands
+Where are custom commands stored?|app/Console/Commands|Default location for custom artisan commands|Laravel::commands
+What property defines the command signature?|protected $signature = 'email:send';|Defines how to call the command|Laravel::commands
+What property defines the command description?|protected $description = 'Send emails to users';|Shown in php artisan list|Laravel::commands
+What command creates a feature test?|php artisan make:test UserTest|Creates a test in tests/Feature directory|Laravel::commands
+What command creates a unit test?|php artisan make:test UserTest --unit|Creates a test in tests/Unit directory|Laravel::commands
+How do you run all tests?|php artisan test|Runs PHPUnit tests with better output|Laravel::commands
+How do you run a specific test file?|php artisan test --filter UserTest|Runs only tests matching the filter|Laravel::commands
+What command creates a service provider?|php artisan make:provider PaymentServiceProvider|Creates a service provider class|Laravel::commands
+Where are providers registered?|config/app.php|In the providers array|Laravel::commands
+What command creates a validation rule?|php artisan make:rule Uppercase|Creates a custom validation rule class|Laravel::commands
+What command creates a custom cast?|php artisan make:cast Json|Creates a custom attribute cast class for Eloquent models|Laravel::commands
+What command creates a broadcasting channel?|php artisan make:channel OrderChannel|Creates a channel authorization class|Laravel::commands
+What command creates a custom exception?|php artisan make:exception UserNotFoundException|Creates a custom exception class|Laravel::commands
+What command creates a query scope?|php artisan make:scope AncientScope|Creates a global scope class for Eloquent queries|Laravel::commands
+How do you start processing queue jobs?|php artisan queue:work|Starts a queue worker to process jobs|Laravel::commands
+How do you process jobs from a specific queue?|php artisan queue:work --queue=emails|Processes jobs only from the 'emails' queue|Laravel::commands
+How do you process a single job?|php artisan queue:work --once|Processes a single job then exits|Laravel::commands
+How do you set the number of times to attempt a job?|php artisan queue:work --tries=3|Job will be attempted up to 3 times before failing|Laravel::commands
+How do you set the timeout for jobs?|php artisan queue:work --timeout=60|Job will timeout after 60 seconds|Laravel::commands
+What command shows failed jobs?|php artisan queue:failed|Lists all failed jobs with their IDs|Laravel::commands
+How do you retry a specific failed job?|php artisan queue:retry 5|Retries the failed job with ID 5|Laravel::commands
+How do you retry all failed jobs?|php artisan queue:retry all|Pushes all failed jobs back onto the queue|Laravel::commands
+How do you delete a failed job?|php artisan queue:forget 5|Deletes the failed job with ID 5|Laravel::commands
+How do you flush all failed jobs?|php artisan queue:flush|Deletes all failed jobs|Laravel::commands
+What command restarts queue workers gracefully?|php artisan queue:restart|Signals workers to restart after finishing current job|Laravel::commands
+How do you listen to a queue (auto-restart on code changes)?|php artisan queue:listen|Less efficient than queue:work but auto-detects code changes|Laravel::commands
+What command prunes old queue batches?|php artisan queue:prune-batches|Removes old batch records from the database|Laravel::commands
+How do you prune batches older than 24 hours?|php artisan queue:prune-batches --hours=24|Removes batches older than specified hours|Laravel::commands
+What command prunes failed jobs?|php artisan queue:prune-failed|Removes old failed job records|Laravel::commands
+How do you prune failed jobs older than 48 hours?|php artisan queue:prune-failed --hours=48|Removes failed jobs older than specified hours|Laravel::commands
+What command runs scheduled tasks?|php artisan schedule:run|Runs all scheduled tasks that are due|Laravel::commands
+What command lists all scheduled tasks?|php artisan schedule:list|Shows all scheduled commands with their cron expressions|Laravel::commands
+What command runs a scheduled task immediately?|php artisan schedule:test|Simulates running scheduled tasks to test them|Laravel::commands
+How do you run scheduled tasks in production?|Add to cron: * * * * * cd /path && php artisan schedule:run >> /dev/null 2>&1|Cron runs the scheduler every minute, Laravel determines what to run|Laravel::commands
+What command creates a symbolic link from public to storage?|php artisan storage:link|Creates symlink from public/storage to storage/app/public for file access|Laravel::commands
+What command generates an application key?|php artisan key:generate|Generates a new APP_KEY in .env file|Laravel::commands
+What command publishes vendor assets?|php artisan vendor:publish|Publishes config, views, or assets from packages|Laravel::commands
+How do you publish a specific provider's assets?|php artisan vendor:publish --provider="Vendor\Package\ServiceProvider"|Publishes only from specified provider|Laravel::commands
+How do you publish with a specific tag?|php artisan vendor:publish --tag=config|Publishes only assets tagged with 'config'|Laravel::commands
+What command starts a database CLI?|php artisan db|Opens database CLI (mysql, psql, etc)|Laravel::commands
+How do you show database information?|php artisan db:show|Displays database connection info and table stats|Laravel::commands
+How do you show specific table information?|php artisan db:table users|Displays detailed info about the users table|Laravel::commands
+What command monitors database?|php artisan db:monitor|Monitors database connections and alerts if thresholds exceeded|Laravel::commands
+How do you wipe the database?|php artisan db:wipe|Drops all tables, views, and types|Laravel::commands
+What command displays current environment?|php artisan env|Shows the current application environment (local, production, etc)|Laravel::commands
+What command caches events and listeners?|php artisan event:cache|Caches all event/listener mappings for production|Laravel::commands
+How do you clear the event cache?|php artisan event:clear|Removes the cached event mappings|Laravel::commands
+How do you generate missing events and listeners?|php artisan event:generate|Creates event and listener files defined in EventServiceProvider|Laravel::commands
+How do you list all events and listeners?|php artisan event:list|Shows all registered events with their listeners|Laravel::commands
+What command discovers and caches packages?|php artisan package:discover|Rebuilds the cached package manifest|Laravel::commands
+What command shows Laravel application information?|php artisan about|Displays app info, environment, drivers, and cache status|Laravel::commands
+What command starts an interactive REPL?|php artisan tinker|Opens an interactive shell for testing code and queries|Laravel::commands
+How do you test database queries in tinker?|User::first() or DB::table('users')->get()|You can run any PHP/Laravel code in tinker|Laravel::commands
+What command shows information about a model?|php artisan model:show User|Displays attributes, relations, observers, and events for the User model|Laravel::commands
+How do you prune old model records?|php artisan model:prune|Deletes records from models using the Prunable trait|Laravel::commands
+How do you clear cached routes?|php artisan route:clear|Already covered above but important to reinforce|Laravel::commands
+How do you cache routes?|php artisan route:cache|Already covered but important to reinforce|Laravel::commands
+What command publishes stubs for customization?|php artisan stub:publish|Publishes all make command stubs to stubs/ directory for customization|Laravel::commands
+What command installs Laravel authentication scaffolding?|composer require laravel/ui then php artisan ui vue --auth|For Laravel UI package (older approach)|Laravel::commands
+What command installs Laravel Breeze?|composer require laravel/breeze --dev then php artisan breeze:install|Modern starter kit with authentication|Laravel::commands
+What command installs Laravel Jetstream?|composer require laravel/jetstream then php artisan jetstream:install|Advanced starter kit with teams and 2FA|Laravel::commands
+What's the command sequence for production optimization?|php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan event:cache|Caches all aspects for maximum performance|Laravel::commands
+What's the command sequence to clear all caches?|php artisan optimize:clear|Clears config, route, view, compiled, and event caches|Laravel::commands
+What method do you override in a custom command to define logic?|public function handle()|This method contains the command's logic|Laravel::commands
+How do you ask for user input in a command?|$this->ask('What is your name?')|Returns the user's input|Laravel::commands
+How do you ask for secret input in a command?|$this->secret('What is the password?')|Input is hidden while typing|Laravel::commands
+How do you confirm with user in a command?|$this->confirm('Do you wish to continue?')|Returns true/false|Laravel::commands
+How do you give user choices in a command?|$this->choice('Pick color', ['red', 'blue'])|User selects from list|Laravel::commands
+How do you output info in a command?|$this->info('Task completed!')|Displays green text|Laravel::commands
+How do you output error in a command?|$this->error('Task failed!')|Displays red text|Laravel::commands
+How do you output warning in a command?|$this->warn('Be careful!')|Displays yellow text|Laravel::commands
+How do you display a table in a command?|$this->table(['Name', 'Email'], $users)|Displays data in table format|Laravel::commands
+How do you show a progress bar in a command?|$bar = $this->output->createProgressBar(100); $bar->advance(); $bar->finish()|Shows progress during long operations|Laravel::commands
+How do you define a required argument?|protected $signature = 'email:send {user}';|user is required|Laravel::commands
+How do you define an optional argument?|protected $signature = 'email:send {user?}';|user is optional|Laravel::commands
+How do you define an argument with default value?|protected $signature = 'email:send {user=foo}';|user defaults to 'foo'|Laravel::commands
+How do you define an optional option?|protected $signature = 'email:send {--queue}';|--queue is a boolean flag|Laravel::commands
+How do you define an option with value?|protected $signature = 'email:send {--queue=}';|--queue expects a value|Laravel::commands
+How do you define an option with default value?|protected $signature = 'email:send {--queue=default}';|--queue defaults to 'default'|Laravel::commands
+How do you define an option shortcut?|protected $signature = 'email:send {--Q\|queue}';|-Q is shortcut for --queue|Laravel::commands
+How do you get an argument value in handle()?|$user = $this->argument('user');|Returns the argument value|Laravel::commands
+How do you get an option value in handle()?|$queue = $this->option('queue');|Returns the option value|Laravel::commands
+How do you return success from a command?|return 0; or return Command::SUCCESS;|Indicates successful execution|Laravel::commands
+How do you return failure from a command?|return 1; or return Command::FAILURE;|Indicates command failed|Laravel::commands
+How do you return invalid from a command?|return 2; or return Command::INVALID;|Indicates invalid input/usage|Laravel::commands

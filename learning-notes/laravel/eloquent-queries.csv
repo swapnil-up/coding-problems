@@ -1,0 +1,159 @@
+How do you retrieve all records?|User::all();|Returns Collection of all users|Laravel::eloquent-queries
+How do you get the first record?|User::first();|Returns first user or null|Laravel::eloquent-queries
+How do you get first or throw exception?|User::firstOrFail();|Throws ModelNotFoundException if no record found|Laravel::eloquent-queries
+How do you find by primary key?|User::find(1);|Returns user with id=1 or null|Laravel::eloquent-queries
+How do you find by primary key or fail?|User::findOrFail(1);|Throws ModelNotFoundException if not found|Laravel::eloquent-queries
+How do you find multiple records by ID?|User::find([1, 2, 3]);|Returns Collection of users with those IDs|Laravel::eloquent-queries
+How do you find or return new instance?|User::findOrNew(1);|Returns existing user or new User instance (not saved)|Laravel::eloquent-queries
+How do you get first or create?|User::firstOrCreate(['email' => 'john@example.com'], ['name' => 'John']);|Finds by first array, creates with merged attributes if not found|Laravel::eloquent-queries
+How do you get first or instantiate?|User::firstOrNew(['email' => 'john@example.com'], ['name' => 'John']);|Like firstOrCreate but doesn't save to database|Laravel::eloquent-queries
+How do you update or create?|User::updateOrCreate(['email' => 'john@example.com'], ['name' => 'John Doe']);|Updates if exists, creates if not|Laravel::eloquent-queries
+What's the difference between create and save?|create() takes array, save() takes model instance|User::create(['name' => 'John']) vs $user = new User; $user->name = 'John'; $user->save();|Laravel::eloquent-queries
+How do you get a single column value?|User::where('id', 1)->value('email');|Returns just the email string, not model|Laravel::eloquent-queries
+How do you pluck multiple IDs?|User::pluck('email');|Returns Collection of emails|Laravel::eloquent-queries
+How do you pluck with custom keys?|User::pluck('name', 'email');|Returns Collection with email as key, name as value|Laravel::eloquent-queries
+How do you check if record exists?|User::where('email', 'john@example.com')->exists();|Returns boolean|Laravel::eloquent-queries
+How do you check if record doesn't exist?|User::where('email', 'john@example.com')->doesntExist();|Returns boolean|Laravel::eloquent-queries
+How do you chunk large result sets?|User::chunk(100, function($users) { });|Processes 100 records at a time|Laravel::eloquent-queries
+Why use chunk?|Memory efficiency with large datasets|Prevents loading millions of records into memory|Laravel::eloquent-queries
+How do you stop chunking early?|return false; inside the chunk callback|Stops processing further chunks|Laravel::eloquent-queries
+What's chunkById?|User::chunkById(100, function($users) { });|Like chunk but uses ID ordering, safe for updates during iteration|Laravel::eloquent-queries
+How do you lazy load results?|User::lazy();|Returns LazyCollection that queries as you iterate|Laravel::eloquent-queries
+What's the benefit of lazy()?|Memory efficient iteration|Only loads one model at a time|Laravel::eloquent-queries
+How do you lazy load with chunk size?|User::lazy(100);|Fetches 100 at a time but yields one by one|Laravel::eloquent-queries
+How do you use lazyById?|User::lazyById(100);|Like lazy but orders by ID|Laravel::eloquent-queries
+How do you use cursor?|foreach(User::cursor() as $user) { }|Memory-efficient, loads one record at a time|Laravel::eloquent-queries
+How do you add a where clause?|User::where('name', 'John')->get();|Simple equality where|Laravel::eloquent-queries
+How do you specify operator in where?|User::where('votes', '>', 100)->get();|Greater than comparison|Laravel::eloquent-queries
+How do you add multiple where clauses?|User::where('status', 'active')->where('votes', '>', 100)->get();|AND condition between wheres|Laravel::eloquent-queries
+How do you pass array to where?|User::where(['status' => 'active', 'subscribed' => true])->get();|Multiple AND conditions|Laravel::eloquent-queries
+How do you do OR where?|User::where('votes', '>', 100)->orWhere('name', 'John')->get();|OR condition|Laravel::eloquent-queries
+How do you group where clauses?|User::where('name', 'John')->orWhere(function($q) { $q->where('votes', '>', 100)->where('status', 'active'); })->get();|Groups OR conditions with closure|Laravel::eloquent-queries
+What does whereBetween do?|User::whereBetween('votes', [1, 100])->get();|WHERE votes BETWEEN 1 AND 100|Laravel::eloquent-queries
+What does whereNotBetween do?|User::whereNotBetween('votes', [1, 100])->get();|WHERE votes NOT BETWEEN 1 AND 100|Laravel::eloquent-queries
+What does whereIn do?|User::whereIn('id', [1, 2, 3])->get();|WHERE id IN (1, 2, 3)|Laravel::eloquent-queries
+What does whereNotIn do?|User::whereNotIn('id', [1, 2, 3])->get();|WHERE id NOT IN (1, 2, 3)|Laravel::eloquent-queries
+What does whereNull do?|User::whereNull('deleted_at')->get();|WHERE deleted_at IS NULL|Laravel::eloquent-queries
+What does whereNotNull do?|User::whereNotNull('deleted_at')->get();|WHERE deleted_at IS NOT NULL|Laravel::eloquent-queries
+How do you compare two columns?|User::whereColumn('updated_at', '>', 'created_at')->get();|Compares two columns|Laravel::eloquent-queries
+How do you compare multiple columns?|User::whereColumn([['first_name', '=', 'last_name'], ['updated_at', '>', 'created_at']])->get();|Multiple column comparisons|Laravel::eloquent-queries
+What does whereDate do?|User::whereDate('created_at', '2023-10-09')->get();|Compares only the date part|Laravel::eloquent-queries
+What does whereMonth do?|User::whereMonth('created_at', 10)->get();|WHERE MONTH(created_at) = 10|Laravel::eloquent-queries
+What does whereDay do?|User::whereDay('created_at', 9)->get();|WHERE DAY(created_at) = 9|Laravel::eloquent-queries
+What does whereYear do?|User::whereYear('created_at', 2023)->get();|WHERE YEAR(created_at) = 2023|Laravel::eloquent-queries
+What does whereTime do?|User::whereTime('created_at', '14:30:00')->get();|Compares only the time part|Laravel::eloquent-queries
+How do you query JSON columns?|User::where('options->language', 'en')->get();|Query JSON column using -> notation|Laravel::eloquent-queries
+How do you query nested JSON?|User::where('options->preferences->notifications', true)->get();|Access nested JSON attributes|Laravel::eloquent-queries
+How do you use whereJsonContains?|User::whereJsonContains('options->languages', 'en')->get();|Check if JSON array contains value|Laravel::eloquent-queries
+How do you check JSON array length?|User::whereJsonLength('options->languages', 2)->get();|Check if JSON array has specific length|Laravel::eloquent-queries
+How do you create OR groups?|User::where('name', 'John')->orWhere(function($q) { $q->where('votes', '>', 100)->where('status', 'active'); })->get();|Closure creates grouped OR condition|Laravel::eloquent-queries
+How do you use where with closure?|User::where(function($q) { $q->where('status', 'active')->orWhere('votes', '>', 100); })->where('subscribed', true)->get();|Closure groups conditions, useful for complex logic|Laravel::eloquent-queries
+What's the benefit of closures in queries?|Controls precedence of logical operators|Like parentheses in SQL: WHERE (status = 'active' OR votes > 100) AND subscribed = 1|Laravel::eloquent-queries
+What does whereExists do?|User::whereExists(function($q) { $q->select(DB::raw(1))->from('orders')->whereColumn('orders.user_id', 'users.id'); })->get();|Subquery EXISTS clause|Laravel::eloquent-queries
+What does whereNotExists do?|User::whereNotExists(function($q) { $q->select(DB::raw(1))->from('orders')->whereColumn('orders.user_id', 'users.id'); })->get();|Subquery NOT EXISTS clause|Laravel::eloquent-queries
+How do you do a raw where?|User::whereRaw('age > ? and votes = 100', [18])->get();|Raw SQL in where clause with bindings|Laravel::eloquent-queries
+How do you use orWhereRaw?|User::where('votes', '>', 100)->orWhereRaw('name = ?', ['John'])->get();|Raw SQL with OR condition|Laravel::eloquent-queries
+How do you order results?|User::orderBy('name')->get();|ORDER BY name ASC (default)|Laravel::eloquent-queries
+How do you order descending?|User::orderBy('name', 'desc')->get();|ORDER BY name DESC|Laravel::eloquent-queries
+How do you order by multiple columns?|User::orderBy('name')->orderBy('email', 'desc')->get();|Multiple ORDER BY clauses|Laravel::eloquent-queries
+How do you order randomly?|User::inRandomOrder()->get();|Random order, useful for featured items|Laravel::eloquent-queries
+What does latest do?|User::latest()->get();|Shortcut for orderBy('created_at', 'desc')|Laravel::eloquent-queries
+What does oldest do?|User::oldest()->get();|Shortcut for orderBy('created_at', 'asc')|Laravel::eloquent-queries
+How do you specify column for latest?|User::latest('updated_at')->get();|Orders by updated_at instead of created_at|Laravel::eloquent-queries
+How do you do raw order by?|User::orderByRaw('updated_at - created_at DESC')->get();|Raw SQL in ORDER BY clause|Laravel::eloquent-queries
+How do you reorder query?|User::orderBy('name')->reorder('email', 'desc')->get();|Removes previous orderings and applies new one|Laravel::eloquent-queries
+How do you reorder and remove all orderings?|User::orderBy('name')->reorder()->get();|Removes all ORDER BY clauses|Laravel::eloquent-queries
+How do you limit results?|User::limit(5)->get();|LIMIT 5|Laravel::eloquent-queries
+How do you use take instead of limit?|User::take(5)->get();|Alias for limit|Laravel::eloquent-queries
+How do you skip records?|User::skip(10)->get();|OFFSET 10|Laravel::eloquent-queries
+How do you combine skip and take?|User::skip(10)->take(5)->get();|OFFSET 10 LIMIT 5 (pagination)|Laravel::eloquent-queries
+How do you use offset instead of skip?|User::offset(10)->limit(5)->get();|Alias for skip|Laravel::eloquent-queries
+How do you group results?|User::groupBy('account_id')->get();|GROUP BY account_id|Laravel::eloquent-queries
+How do you group by multiple columns?|User::groupBy('account_id', 'status')->get();|GROUP BY multiple columns|Laravel::eloquent-queries
+What does having do?|User::groupBy('account_id')->having('account_id', '>', 100)->get();|HAVING clause after GROUP BY|Laravel::eloquent-queries
+How do you use havingRaw?|User::groupBy('account_id')->havingRaw('SUM(price) > ?', [2500])->get();|Raw SQL in HAVING|Laravel::eloquent-queries
+How do you combine having and where?|User::where('status', 'active')->groupBy('account_id')->having('account_id', '>', 100)->get();|WHERE filters before grouping, HAVING after|Laravel::eloquent-queries
+How do you select specific columns?|User::select('name', 'email')->get();|SELECT name, email FROM users|Laravel::eloquent-queries
+How do you add columns to existing select?|User::select('name')->addSelect('email')->get();|Adds email to selection|Laravel::eloquent-queries
+What does distinct do?|User::select('name')->distinct()->get();|SELECT DISTINCT name|Laravel::eloquent-queries
+How do you use raw select?|User::select(DB::raw('count(*) as user_count'))->get();|Raw SQL in SELECT|Laravel::eloquent-queries
+How do you select with raw expressions?|User::selectRaw('price * ? as price_with_tax', [1.0825])->get();|Raw select with bindings|Laravel::eloquent-queries
+How do you inner join?|User::join('posts', 'users.id', '=', 'posts.user_id')->get();|INNER JOIN posts|Laravel::eloquent-queries
+How do you left join?|User::leftJoin('posts', 'users.id', '=', 'posts.user_id')->get();|LEFT JOIN posts|Laravel::eloquent-queries
+How do you right join?|User::rightJoin('posts', 'users.id', '=', 'posts.user_id')->get();|RIGHT JOIN posts|Laravel::eloquent-queries
+How do you cross join?|User::crossJoin('colors')->get();|CROSS JOIN colors (Cartesian product)|Laravel::eloquent-queries
+How do you join with multiple conditions?|User::join('posts', function($join) { $join->on('users.id', '=', 'posts.user_id')->where('posts.status', 'published'); })->get();|Complex join with closure|Laravel::eloquent-queries
+How do you join with OR condition?|User::join('posts', function($join) { $join->on('users.id', '=', 'posts.user_id')->orOn('users.id', '=', 'posts.author_id'); })->get();|OR in join conditions|Laravel::eloquent-queries
+What's joinSub?|$latestPosts = Post::select('user_id', DB::raw('MAX(created_at)'))->groupBy('user_id'); User::joinSub($latestPosts, 'latest', 'users.id', '=', 'latest.user_id')->get();|Join with a subquery|Laravel::eloquent-queries
+How do you left join sub?|User::leftJoinSub($subquery, 'alias', 'users.id', '=', 'alias.user_id')->get();|LEFT JOIN with subquery|Laravel::eloquent-queries
+How do you union queries?|$first = User::whereNull('first_name'); $users = User::whereNull('last_name')->union($first)->get();|UNION (removes duplicates)|Laravel::eloquent-queries
+How do you union all?|User::whereNull('last_name')->unionAll($first)->get();|UNION ALL (keeps duplicates)|Laravel::eloquent-queries
+How do you count records?|User::count();|Returns integer count|Laravel::eloquent-queries
+How do you get max value?|User::max('votes');|Returns maximum votes value|Laravel::eloquent-queries
+How do you get min value?|User::min('votes');|Returns minimum votes value|Laravel::eloquent-queries
+How do you get average?|User::avg('votes');|Returns average of votes|Laravel::eloquent-queries
+How do you get sum?|User::sum('votes');|Returns sum of votes|Laravel::eloquent-queries
+How do you count with conditions?|User::where('status', 'active')->count();|Count only active users|Laravel::eloquent-queries
+Can you use aggregates with groupBy?|User::select('status', DB::raw('count(*) as total'))->groupBy('status')->get();|Yes, commonly used together|Laravel::eloquent-queries
+What does when() do?|User::when($role, function($q, $role) { return $q->where('role', $role); })->get();|Conditionally applies query based on truthy first param|Laravel::eloquent-queries
+How do you use when with false condition?|User::when($sortBy, fn($q, $sort) => $q->orderBy($sort), fn($q) => $q->orderBy('name'))->get();|Third parameter is callback when condition is false|Laravel::eloquent-queries
+What does unless() do?|User::unless($role === 'admin', function($q) { return $q->where('public', true); })->get();|Opposite of when, runs when condition is falsy|Laravel::eloquent-queries
+How do you select from subquery?|User::select('name', 'email')->selectSub(function($q) { $q->from('posts')->selectRaw('count(*)')->whereColumn('posts.user_id', 'users.id'); }, 'posts_count')->get();|Adds subquery as column|Laravel::eloquent-queries
+How do you use addSelect with subquery?|User::select('name')->addSelect(['posts_count' => Post::selectRaw('count(*)')->whereColumn('posts.user_id', 'users.id')])->get();|Cleaner syntax for subquery columns|Laravel::eloquent-queries
+How do you order by subquery?|User::orderBy(Post::select('created_at')->whereColumn('user_id', 'users.id')->latest()->limit(1))->get();|Order by result of subquery|Laravel::eloquent-queries
+How do you where with subquery?|User::where('votes', '>', function($q) { $q->select(DB::raw('AVG(votes)'))->from('users'); })->get();|Compare column to subquery result|Laravel::eloquent-queries
+What does lockForUpdate do?|User::where('votes', '>', 100)->lockForUpdate()->get();|SELECT ... FOR UPDATE (row-level lock)|Laravel::eloquent-queries
+What does sharedLock do?|User::where('votes', '>', 100)->sharedLock()->get();|SELECT ... LOCK IN SHARE MODE|Laravel::eloquent-queries
+When should you use locking?|Concurrent updates that need consistency|Prevents race conditions in transactions|Laravel::eloquent-queries
+How do you get the SQL query?|User::where('votes', '>', 100)->toSql();|Returns SQL string without executing|Laravel::eloquent-queries
+How do you get SQL with bindings?|User::where('votes', '>', 100)->toRawSql();|Returns SQL with bindings replaced (Laravel 9+)|Laravel::eloquent-queries
+How do you dump query and continue?|User::where('votes', '>', 100)->dump()->get();|Dumps SQL to output and continues|Laravel::eloquent-queries
+How do you dump and die?|User::where('votes', '>', 100)->dd();|Dumps SQL and stops execution|Laravel::eloquent-queries
+How do you enable query log?|DB::enableQueryLog(); /* queries */ DB::getQueryLog();|Logs all queries executed|Laravel::eloquent-queries
+How do you listen to all queries?|DB::listen(function($query) { dump($query->sql); });|Callback for every query executed|Laravel::eloquent-queries
+How do you soft delete a model?|$user->delete();|Sets deleted_at timestamp|Laravel::eloquent-queries
+How do you force delete?|$user->forceDelete();|Permanently deletes from database|Laravel::eloquent-queries
+How do you restore soft deleted?|$user->restore();|Sets deleted_at to null|Laravel::eloquent-queries
+How do you query with soft deleted?|User::withTrashed()->get();|Includes soft deleted records|Laravel::eloquent-queries
+How do you query only soft deleted?|User::onlyTrashed()->get();|Returns only soft deleted records|Laravel::eloquent-queries
+What trait enables soft deletes?|use SoftDeletes; in model|Adds soft delete functionality|Laravel::eloquent-queries
+What column is required for soft deletes?|deleted_at timestamp column|Migration: $table->softDeletes();|Laravel::eloquent-queries
+How do you check if model is soft deleted?|$user->trashed();|Returns boolean|Laravel::eloquent-queries
+What is a local scope?|public function scopeActive($query) { return $query->where('status', 'active'); }|Reusable query constraint in model|Laravel::eloquent-queries
+How do you use a local scope?|User::active()->get();|Calls scopeActive method|Laravel::eloquent-queries
+Can scopes accept parameters?|public function scopeOfType($query, $type) { return $query->where('type', $type); }|Yes, pass after $query parameter|Laravel::eloquent-queries
+How do you use scope with parameters?|User::ofType('admin')->get();|Pass parameters after method name|Laravel::eloquent-queries
+Can you chain scopes?|User::active()->ofType('admin')->get();|Yes, scopes are chainable|Laravel::eloquent-queries
+What is a global scope?|Automatically applied to all queries|class ActiveScope implements Scope { apply($builder, $model) { $builder->where('active', 1); } }|Laravel::eloquent-queries
+How do you apply a global scope?|protected static function booted() { static::addGlobalScope(new ActiveScope); }|In model's booted method|Laravel::eloquent-queries
+How do you remove a global scope?|User::withoutGlobalScope(ActiveScope::class)->get();|Removes specific global scope|Laravel::eloquent-queries
+How do you remove all global scopes?|User::withoutGlobalScopes()->get();|Removes all global scopes|Laravel::eloquent-queries
+What's the difference?|Eloquent returns models, Query Builder returns stdClass|User::where()->get() vs DB::table('users')->where()->get()|Laravel::eloquent-queries
+When to use Query Builder?|Better performance, no model overhead|For reports, large datasets, when you don't need model features|Laravel::eloquent-queries
+How do you switch to Query Builder?|DB::table('users')->where('votes', '>', 100)->get();|Use DB::table() instead of Model|Laravel::eloquent-queries
+Can you use relationships with Query Builder?|No|Query Builder doesn't support relationships, use joins instead|Laravel::eloquent-queries
+Do Query Builder results have timestamps?|No|Returns plain objects, not model instances|Laravel::eloquent-queries
+How do you create raw expression?|DB::raw('count(*) as total')|For use in select, where, etc.|Laravel::eloquent-queries
+When should you use raw expressions?|Database-specific functions, complex expressions|Use sparingly, prefer Eloquent methods when possible|Laravel::eloquent-queries
+How do you bind parameters safely?|User::whereRaw('age > ?', [18])->get();|Always use parameter binding to prevent SQL injection|Laravel::eloquent-queries
+What's the danger of raw expressions?|SQL injection if not using bindings|Never concatenate user input into raw SQL|Laravel::eloquent-queries
+How do you paginate results?|User::paginate(15);|Returns 15 per page with page links|Laravel::eloquent-queries
+How do you use simple pagination?|User::simplePaginate(15);|Just prev/next links, faster|Laravel::eloquent-queries
+How do you specify page number?|User::paginate(15, ['*'], 'page', 2);|Third param is page query param, fourth is page number|Laravel::eloquent-queries
+How do you customize pagination columns?|User::paginate(15, ['id', 'name']);|Second parameter specifies columns|Laravel::eloquent-queries
+How do you get current page?|$users->currentPage();|On paginator instance|Laravel::eloquent-queries
+How do you check if more pages exist?|$users->hasMorePages();|Returns boolean|Laravel::eloquent-queries
+What's cursorPaginate?|User::cursorPaginate(15);|Efficient for large datasets, uses cursor instead of offset|Laravel::eloquent-queries
+How do you manually create paginator?|new LengthAwarePaginator($items, $total, $perPage);|Create custom paginator|Laravel::eloquent-queries
+How do you paginate with additional query params?|User::paginate(15)->appends(['sort' => 'votes']);|Adds sort=votes to pagination links|Laravel::eloquent-queries
+How do you paginate with fragment?|User::paginate(15)->fragment('users');|Adds #users to pagination links|Laravel::eloquent-queries
+What's the benefit of lazy()?|Memory efficient for large datasets|Doesn't load all records at once|Laravel::eloquent-queries
+How do you map over lazy collection?|User::lazy()->map(fn($user) => $user->name);|Process one at a time|Laravel::eloquent-queries
+Can you use collection methods on lazy?|Yes, most methods work|filter, map, reject, etc. work on lazy collections|Laravel::eloquent-queries
+What's the difference between cursor and lazy?|cursor is older, lazy is newer with more features|lazy() is preferred in modern Laravel|Laravel::eloquent-queries
+How do you clone a query?|$query = User::where('active', true); $clone = clone $query;|Creates independent copy|Laravel::eloquent-queries
+How do you get the query builder instance?|$query = User::query();|Empty query builder to start building|Laravel::eloquent-queries
+How do you use tap for debugging?|User::where('votes', '>', 100)->tap(fn($q) => dump($q->toSql()))->get();|Runs callback without affecting query chain|Laravel::eloquent-queries
+What does value() return for no results?|null|Unlike first() which returns model or null, value() returns the column value or null|Laravel::eloquent-queries
+How do you upsert records?|User::upsert([['email' => 'john@example.com', 'name' => 'John']], ['email'], ['name']);|Insert or update based on unique columns (Laravel 8+)|Laravel::eloquent-queries
+j

@@ -1,0 +1,146 @@
+How do you define a one-to-one relationship?|public function phone() { return $this->hasOne(Phone::class); }|User has one Phone. Put this in User model|Laravel::eloquent-relationships
+What's the inverse of hasOne?|public function user() { return $this->belongsTo(User::class); }|Phone belongs to User. Put this in Phone model|Laravel::eloquent-relationships
+What foreign key does hasOne expect by default?|user_id|Laravel expects {model}_id in the related table|Laravel::eloquent-relationships
+How do you specify a custom foreign key in hasOne?|return $this->hasOne(Phone::class, 'foreign_key');|Second parameter is the foreign key column name|Laravel::eloquent-relationships
+How do you specify a custom local key in hasOne?|return $this->hasOne(Phone::class, 'foreign_key', 'local_key');|Third parameter is the local key column name|Laravel::eloquent-relationships
+How do you access a hasOne relationship?|$user->phone|Returns the related Phone model instance or null|Laravel::eloquent-relationships
+How do you check if a hasOne relationship exists?|if($user->phone)|Or use $user->phone()->exists()|Laravel::eloquent-relationships
+What does hasOne()->exists() return?|true or false|Checks if the relationship exists without loading the model|Laravel::eloquent-relationships
+How do you create a related model with hasOne?|$user->phone()->create(['number' => '123']);|Creates a Phone record with user_id automatically set|Laravel::eloquent-relationships
+How do you save an existing model to a hasOne relationship?|$user->phone()->save($phoneInstance);|Associates and saves the phone model|Laravel::eloquent-relationships
+How do you define a one-to-many relationship?|public function posts() { return $this->hasMany(Post::class); }|User has many Posts. Put this in User model|Laravel::eloquent-relationships
+What's the inverse of hasMany?|public function user() { return $this->belongsTo(User::class); }|Post belongs to User. Put this in Post model|Laravel::eloquent-relationships
+What foreign key does hasMany expect?|user_id|In the posts table|Laravel::eloquent-relationships
+How do you specify a custom foreign key in hasMany?|return $this->hasMany(Post::class, 'author_id');|Second parameter is the foreign key|Laravel::eloquent-relationships
+How do you specify custom keys in hasMany?|return $this->hasMany(Post::class, 'foreign_key', 'local_key');|Third parameter is the local key|Laravel::eloquent-relationships
+How do you access a hasMany relationship?|$user->posts|Returns a Collection of Post models|Laravel::eloquent-relationships
+How do you add a where clause to a relationship query?|$user->posts()->where('published', true)->get();|Use () to get the query builder|Laravel::eloquent-relationships
+What's the difference between $user->posts and $user->posts()?|$user->posts returns Collection (eager), $user->posts() returns QueryBuilder|Without () it loads models, with () you can add constraints|Laravel::eloquent-relationships
+How do you create a related model with hasMany?|$user->posts()->create(['title' => 'My Post']);|Creates Post with user_id set automatically|Laravel::eloquent-relationships
+How do you create multiple related models?|$user->posts()->createMany([['title' => 'Post 1'], ['title' => 'Post 2']]);|Creates multiple posts at once|Laravel::eloquent-relationships
+How do you save a model to hasMany relationship?|$user->posts()->save($post);|Saves the post with user_id set|Laravel::eloquent-relationships
+How do you save multiple models to hasMany?|$user->posts()->saveMany([$post1, $post2]);|Saves multiple posts with user_id set|Laravel::eloquent-relationships
+What does belongsTo define?|public function user() { return $this->belongsTo(User::class); }|Post belongs to User. This is the inverse side of relationships|Laravel::eloquent-relationships
+What foreign key does belongsTo expect?|user_id|In the current model's table|Laravel::eloquent-relationships
+How do you specify a custom foreign key in belongsTo?|return $this->belongsTo(User::class, 'author_id');|Second parameter is the foreign key|Laravel::eloquent-relationships
+How do you specify custom keys in belongsTo?|return $this->belongsTo(User::class, 'foreign_key', 'owner_key');|Third parameter is the parent's key|Laravel::eloquent-relationships
+How do you associate a belongsTo relationship?|$post->user()->associate($user); $post->save();|Sets the user_id and saves|Laravel::eloquent-relationships
+How do you dissociate a belongsTo relationship?|$post->user()->dissociate(); $post->save();|Sets user_id to null|Laravel::eloquent-relationships
+Can belongsTo have a default model?|public function user() { return $this->belongsTo(User::class)->withDefault(); }|Returns empty User model instead of null|Laravel::eloquent-relationships
+How do you provide default attributes with withDefault?|return $this->belongsTo(User::class)->withDefault(['name' => 'Guest']);|Returns a User with name='Guest' if no relation exists|Laravel::eloquent-relationships
+How do you specify the relationship name different from method?|return $this->belongsTo(User::class, 'author_id')->withDefault();|The method name (author) can differ from the model name|Laravel::eloquent-relationships
+How do you define a many-to-many relationship?|public function roles() { return $this->belongsToMany(Role::class); }|User belongs to many Roles|Laravel::eloquent-relationships
+What table does belongsToMany expect?|role_user|Pivot table named with singular model names in alphabetical order|Laravel::eloquent-relationships
+How do you specify a custom pivot table?|return $this->belongsToMany(Role::class, 'user_roles');|Second parameter is the table name|Laravel::eloquent-relationships
+How do you specify custom pivot keys?|return $this->belongsToMany(Role::class, 'user_roles', 'user_id', 'role_id');|Third is foreign key, fourth is related key|Laravel::eloquent-relationships
+What are the two params passed to belongsToMany for keys?|foreign pivot key and related pivot key|Third param is current model's key in pivot, fourth is related model's key|Laravel::eloquent-relationships
+How do you access pivot data?|$user->roles->first()->pivot|pivot property contains the pivot table attributes|Laravel::eloquent-relationships
+How do you include additional pivot columns?|return $this->belongsToMany(Role::class)->withPivot('created_by', 'expires_at');|Makes these columns accessible via ->pivot|Laravel::eloquent-relationships
+How do you automatically include timestamps in pivot?|return $this->belongsToMany(Role::class)->withTimestamps();|Adds created_at and updated_at to pivot table|Laravel::eloquent-relationships
+How do you attach a model in many-to-many?|$user->roles()->attach($roleId);|Adds entry to pivot table|Laravel::eloquent-relationships
+How do you attach with pivot data?|$user->roles()->attach($roleId, ['expires_at' => $date]);|Adds pivot entry with additional data|Laravel::eloquent-relationships
+How do you attach multiple models?|$user->roles()->attach([1, 2, 3]);|Attaches multiple roles at once|Laravel::eloquent-relationships
+How do you detach a model in many-to-many?|$user->roles()->detach($roleId);|Removes entry from pivot table|Laravel::eloquent-relationships
+How do you detach all models?|$user->roles()->detach();|Removes all pivot entries for this user|Laravel::eloquent-relationships
+How do you sync relationships?|$user->roles()->sync([1, 2, 3]);|Detaches unlisted roles and attaches new ones|Laravel::eloquent-relationships
+How do you sync without detaching?|$user->roles()->syncWithoutDetaching([1, 2, 3]);|Only attaches missing roles, keeps existing|Laravel::eloquent-relationships
+How do you toggle a many-to-many relationship?|$user->roles()->toggle([1, 2, 3]);|Attaches if not present, detaches if present|Laravel::eloquent-relationships
+How do you update pivot data?|$user->roles()->updateExistingPivot($roleId, ['expires_at' => $date]);|Updates pivot table attributes|Laravel::eloquent-relationships
+How do you query pivot table conditions?|$user->roles()->wherePivot('expires_at', '>', now())->get();|Query based on pivot column|Laravel::eloquent-relationships
+How do you query pivot table with IN?|$user->roles()->wherePivotIn('status', ['active', 'pending'])->get();|Query pivot with IN clause|Laravel::eloquent-relationships
+How do you query pivot table with NULL?|$user->roles()->wherePivotNull('expires_at')->get();|Query where pivot column is NULL|Laravel::eloquent-relationships
+How do you order by pivot column?|$user->roles()->orderByPivot('created_at', 'desc')->get();|Orders results by pivot table column|Laravel::eloquent-relationships
+What method returns only the pivot model?|return $this->belongsToMany(Role::class)->using(RoleUser::class);|Uses custom pivot model|Laravel::eloquent-relationships
+How do you define a custom pivot model?|class RoleUser extends Pivot { }|Extends Pivot instead of Model|Laravel::eloquent-relationships
+How do you access relationships on a pivot model?|The pivot model can have its own relationships|Pivot models can define their own hasMany, belongsTo, etc|Laravel::eloquent-relationships
+What is a has-one-through relationship?|Access distant one-to-one relationship through intermediate model|Country -> User -> Phone: Country has one phone through user|Laravel::eloquent-relationships
+How do you define hasOneThrough?|return $this->hasOneThrough(Phone::class, User::class);|First is final model, second is intermediate|Laravel::eloquent-relationships
+What's the use case for hasOneThrough?|$country->phone|Get a country's phone through its user|Laravel::eloquent-relationships
+How do you specify custom keys in hasOneThrough?|return $this->hasOneThrough(Phone::class, User::class, 'country_id', 'user_id', 'id', 'id');|3rd: foreign on intermediate, 4th: foreign on final, 5th: local, 6th: local on intermediate|Laravel::eloquent-relationships
+What is a has-many-through relationship?|Access distant relationship through intermediate model|Country -> User -> Post: Country has many posts through users|Laravel::eloquent-relationships
+How do you define hasManyThrough?|return $this->hasManyThrough(Post::class, User::class);|First is final model, second is intermediate|Laravel::eloquent-relationships
+What's the use case for hasManyThrough?|$country->posts|Get all posts from users in a country|Laravel::eloquent-relationships
+How do you specify custom keys in hasManyThrough?|return $this->hasManyThrough(Post::class, User::class, 'country_id', 'user_id', 'id', 'id');|Same parameter order as hasOneThrough|Laravel::eloquent-relationships
+What is a polymorphic relationship?|A model can belong to multiple other models on a single association|Comment can belong to Post or Video|Laravel::eloquent-relationships
+How do you define a polymorphic one-to-one?|return $this->morphOne(Image::class, 'imageable');|Post has one Image through imageable|Laravel::eloquent-relationships
+What's the inverse of morphOne?|return $this->morphTo();|Image morphs to imageable (Post or Video)|Laravel::eloquent-relationships
+What columns does a polymorphic relation need?|imageable_id and imageable_type|Type stores model class, id stores foreign key|Laravel::eloquent-relationships
+What does the _type column store?|Fully qualified class name|Example: App\Models\Post|Laravel::eloquent-relationships
+How do you access a polymorphic relationship?|$post->image|Returns Image model|Laravel::eloquent-relationships
+How do you access the parent from polymorphic child?|$image->imageable|Returns Post or Video depending on type|Laravel::eloquent-relationships
+How do you create a morphOne relationship?|$post->image()->create(['url' => 'photo.jpg']);|Creates image with imageable_id and imageable_type set|Laravel::eloquent-relationships
+How do you define a polymorphic one-to-many?|return $this->morphMany(Comment::class, 'commentable');|Post has many Comments through commentable|Laravel::eloquent-relationships
+What's the inverse of morphMany?|return $this->morphTo();|Comment morphs to commentable (Post or Video)|Laravel::eloquent-relationships
+What's the use case for morphMany?|Posts and Videos both have comments|One Comment model serves multiple parent types|Laravel::eloquent-relationships
+How do you access morphMany?|$post->comments|Returns Collection of comments|Laravel::eloquent-relationships
+How do you query morphMany?|$post->comments()->where('approved', true)->get();|Add constraints like normal relationships|Laravel::eloquent-relationships
+How do you create a morphMany child?|$post->comments()->create(['body' => 'Great post!']);|Creates comment with commentable_type and commentable_id set|Laravel::eloquent-relationships
+What is a polymorphic many-to-many relationship?|Many-to-many where target can be multiple model types|Post and Video can both have many Tags|Laravel::eloquent-relationships
+How do you define morphToMany?|return $this->morphToMany(Tag::class, 'taggable');|Post morphs to many Tags through taggable|Laravel::eloquent-relationships
+What's the inverse of morphToMany?|return $this->morphedByMany(Post::class, 'taggable');|Tag is morphed by many Posts through taggable|Laravel::eloquent-relationships
+What table structure does morphToMany need?|taggables table with taggable_id, taggable_type, tag_id|Pivot table with polymorphic columns|Laravel::eloquent-relationships
+What are the two inverse methods for morphToMany?|morphedByMany for each model type|public function posts() { return $this->morphedByMany(Post::class, 'taggable'); }|Laravel::eloquent-relationships
+How do you access morphToMany?|$post->tags|Returns Collection of tags|Laravel::eloquent-relationships
+How do you attach in morphToMany?|$post->tags()->attach($tagId);|Works like regular many-to-many|Laravel::eloquent-relationships
+How do you include pivot columns in morphToMany?|return $this->morphToMany(Tag::class, 'taggable')->withPivot('created_by');|Same as belongsToMany|Laravel::eloquent-relationships
+How do you customize the polymorphic type value?|Use Relation::morphMap(['post' => Post::class]);|In AppServiceProvider, maps 'post' instead of full class name|Laravel::eloquent-relationships
+Where should you define morphMap?|AppServiceProvider boot() method|Centralized location for all polymorphic mappings|Laravel::eloquent-relationships
+Why use morphMap?|Shorter database values and decouples database from namespace|If you rename namespace, database isn't affected|Laravel::eloquent-relationships
+How do you get the morph map?|Relation::morphMap();|Returns array of current morph map|Laravel::eloquent-relationships
+How do you enforce morph map?|Relation::requireMorphMap();|Throws exception if unmapped class used|Laravel::eloquent-relationships
+How do you eager load a relationship?|User::with('posts')->get();|Loads users with their posts (2 queries total)|Laravel::eloquent-relationships
+How do you eager load multiple relationships?|User::with(['posts', 'phone'])->get();|Loads multiple relationships|Laravel::eloquent-relationships
+How do you eager load nested relationships?|User::with('posts.comments')->get();|Loads users, their posts, and comments on posts|Laravel::eloquent-relationships
+How do you add constraints to eager loading?|User::with(['posts' => function($q) { $q->where('published', true); }])->get();|Only loads published posts|Laravel::eloquent-relationships
+How do you eager load with multiple constraints?|User::with(['posts' => fn($q) => $q->where('published', true)->orderBy('created_at')])->get();|Chain multiple constraints|Laravel::eloquent-relationships
+How do you lazy eager load?|$users->load('posts');|Load relationship after model is retrieved|Laravel::eloquent-relationships
+How do you lazy eager load with constraints?|$users->load(['posts' => fn($q) => $q->where('published', true)]);|Add constraints to lazy loading|Laravel::eloquent-relationships
+How do you check if relationship is loaded?|$user->relationLoaded('posts')|Returns true if posts were eager loaded|Laravel::eloquent-relationships
+How do you prevent lazy loading in development?|Model::preventLazyLoading(!app()->isProduction());|In AppServiceProvider, throws exception on lazy load|Laravel::eloquent-relationships
+What does preventing lazy loading help with?|Prevents N+1 query problems|Forces you to eager load, avoiding performance issues|Laravel::eloquent-relationships
+How do you get models that have related records?|User::has('posts')->get();|Returns users that have at least one post|Laravel::eloquent-relationships
+How do you get models that have multiple related records?|User::has('posts', '>=', 3)->get();|Returns users with 3 or more posts|Laravel::eloquent-relationships
+How do you use has with nested relationships?|User::has('posts.comments')->get();|Users with posts that have comments|Laravel::eloquent-relationships
+How do you add conditions to has?|User::whereHas('posts', function($q) { $q->where('published', true); })->get();|Users with published posts|Laravel::eloquent-relationships
+How do you combine multiple whereHas?|User::whereHas('posts')->whereHas('comments')->get();|Users with posts AND comments|Laravel::eloquent-relationships
+How do you query for lack of relationship?|User::doesntHave('posts')->get();|Returns users with no posts|Laravel::eloquent-relationships
+How do you add conditions to doesntHave?|User::whereDoesntHave('posts', function($q) { $q->where('published', true); })->get();|Users without published posts|Laravel::eloquent-relationships
+How do you count related models?|User::withCount('posts')->get();|Adds posts_count attribute to each user|Laravel::eloquent-relationships
+How do you count with constraints?|User::withCount(['posts' => fn($q) => $q->where('published', true)])->get();|Counts only published posts|Laravel::eloquent-relationships
+How do you count multiple relationships?|User::withCount(['posts', 'comments'])->get();|Adds posts_count and comments_count|Laravel::eloquent-relationships
+How do you alias a count?|User::withCount(['posts as published_posts' => fn($q) => $q->where('published', true)])->get();|Creates published_posts_count attribute|Laravel::eloquent-relationships
+How do you use relationship counts in queries?|User::has('posts', '>', 5)->get();|Already shown but reinforces the pattern|Laravel::eloquent-relationships
+How do you order by relationship count?|User::withCount('posts')->orderBy('posts_count', 'desc')->get();|Order users by number of posts|Laravel::eloquent-relationships
+How do you get max value from relationship?|User::withMax('posts', 'created_at')->get();|Adds posts_max_created_at attribute|Laravel::eloquent-relationships
+How do you get min value from relationship?|User::withMin('posts', 'votes')->get();|Adds posts_min_votes attribute|Laravel::eloquent-relationships
+How do you get sum from relationship?|User::withSum('orders', 'total')->get();|Adds orders_sum_total attribute|Laravel::eloquent-relationships
+How do you get average from relationship?|User::withAvg('posts', 'votes')->get();|Adds posts_avg_votes attribute|Laravel::eloquent-relationships
+How do you check if relationship exists (boolean)?|User::withExists('posts')->get();|Adds posts_exists boolean attribute|Laravel::eloquent-relationships
+How do you alias aggregate functions?|User::withSum('orders as total_spent', 'price')->get();|Creates total_spent attribute|Laravel::eloquent-relationships
+Can you eager load counts?|User::with('posts')->withCount('posts')->get();|Yes, withCount works with eager loading|Laravel::eloquent-relationships
+How do you eager load multiple aggregates?|User::withCount('posts')->withSum('orders', 'total')->get();|Combine different aggregate methods|Laravel::eloquent-relationships
+How do you add constraints to aggregates?|User::withCount(['posts' => fn($q) => $q->where('published', true)])->get();|Same closure syntax as with()|Laravel::eloquent-relationships
+When do you use $model->relationship()?|When you want the query builder to add constraints|Returns Builder instance|Laravel::eloquent-relationships
+When do you use $model->relationship?|When you want the loaded results|Returns model(s) or null|Laravel::eloquent-relationships
+Can you chain query methods on a property?|No, $user->posts->where() won't work|Properties return Collection or Model, not Builder|Laravel::eloquent-relationships
+How do you add constraints to loaded relationships?|$user->posts->where('published', true)|Use Collection methods, not query builder|Laravel::eloquent-relationships
+What's the best practice for adding constraints?|Use $user->posts()->where('published', true)->get()|Use relationship as method to leverage database|Laravel::eloquent-relationships
+How do you create a related model?|$user->posts()->create(['title' => 'New Post']);|Automatically sets foreign key|Laravel::eloquent-relationships
+How do you create without mass assignment?|$post = $user->posts()->make(['title' => 'New']); $post->save();|make() instantiates without saving|Laravel::eloquent-relationships
+What's the difference between create() and save()?|create() takes array and saves, save() takes model instance|Both automatically set foreign key|Laravel::eloquent-relationships
+How do you update all related models?|$user->posts()->update(['published' => true]);|Updates all related posts|Laravel::eloquent-relationships
+How do you delete all related models?|$user->posts()->delete();|Deletes all related posts|Laravel::eloquent-relationships
+Can you use firstOrCreate on relationships?|$user->posts()->firstOrCreate(['slug' => 'first-post']);|Yes, works like Model::firstOrCreate()|Laravel::eloquent-relationships
+Can you use updateOrCreate on relationships?|$user->posts()->updateOrCreate(['slug' => 'first'], ['title' => 'Updated']);|Yes, finds or creates then updates|Laravel::eloquent-relationships
+What does touch() do on a relationship?|$post->user->touch();|Updates user's updated_at timestamp|Laravel::eloquent-relationships
+How do you auto-touch parent on child update?|protected $touches = ['user'];|In Post model, touching post touches user|Laravel::eloquent-relationships
+Why would you touch parent timestamps?|Cache invalidation based on updated_at|Useful when caching parent model|Laravel::eloquent-relationships
+How do you check if two models are the same?|$post->is($anotherPost)|Returns true if same model and ID|Laravel::eloquent-relationships
+How do you check if two models are different?|$post->isNot($anotherPost)|Returns true if different models or IDs|Laravel::eloquent-relationships
+How do you check if model belongs to relationship?|$post->user->is($user)|Check if specific user owns the post|Laravel::eloquent-relationships
+How do you get users with at least one address?|User::has('addresses')->get();|Returns users that have 1 or more addresses|Laravel::eloquent-relationships
+How do you get users with more than N addresses?|User::has('addresses', '>', 2)->get();|Returns users with more than 2 addresses|Laravel::eloquent-relationships
+How do you get users with addresses matching criteria?|User::whereHas('addresses', function($q) { $q->where('city', 'NYC'); })->get();|Users with addresses in NYC|Laravel::eloquent-relationships
+What if it's a many-to-many relationship?|User::has('addresses')->get() still works|Same has() method works for all relationship types|Laravel::eloquent-relationships
+How would you also count the addresses?|User::has('addresses')->withCount('addresses')->get();|Includes addresses_count on each user|Laravel::eloquent-relationships
+How would you eager load the addresses too?|User::has('addresses')->with('addresses')->get();|Loads the actual address models|Laravel::eloquent-relationships
