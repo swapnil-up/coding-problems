@@ -8,10 +8,11 @@ A place to practice, learn, and figure things out. Not a portfolio.
 
 | Folder | What it's for |
 |--------|-------------|
-| `challenges/` | LeetCode, HackerRank, CodeWars — all algo practice |
+| `challenges/` | LeetCode, HackerRank, CodeWars, Codeforces — all algo practice |
 | `workbooks/` | Framework drills (FastAPI, Svelte, Vue) + DSA, Python, PHP/SQL |
 | `learning-notes/` | TILs, course notes, random learnings |
 | `miniprojects/` | Small projects for understanding concepts |
+| `resources/` | Reference docs (competitive programming, reading list) |
 
 ---
 
@@ -22,6 +23,7 @@ A place to practice, learn, and figure things out. Not a portfolio.
 | Challenges (LeetCode) | 15 |
 | Challenges (HackerRank) | 23 |
 | Challenges (CodeWars) | ~ |
+| Challenges (Codeforces) | 1 |
 | TILs | 12 |
 | Workbooks | 6 categories |
 | Mini-projects | 4 |
@@ -34,6 +36,8 @@ A place to practice, learn, and figure things out. Not a portfolio.
 ## Setup
 
 Git hook runs on commit to remind you to update the state above.
+
+Codeforces uses a local `oj` loop — see `challenges/codeforces/README.md`.
 
 **To disable:**
 ```bash

@@ -38,3 +38,6 @@ log.txt
 # Databases
 *.db
 *.sqlite
+
+# Codeforces sample tests (pulled per problem with oj)
+challenges/codeforces/**/test/
