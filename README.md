@@ -24,7 +24,7 @@ A place to practice, learn, and figure things out. Not a portfolio.
 | Challenges (HackerRank) | 23 |
 | Challenges (CodeWars) | ~ |
 | Challenges (Codeforces) | 1 |
-| TILs | 12 |
+| TILs | 132 |
 | Workbooks | 6 categories |
 | Mini-projects | 4 |
 

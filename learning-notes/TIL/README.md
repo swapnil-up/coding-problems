@@ -15,6 +15,7 @@ A categorized index of Today I Learned notes.
 
 ## CLI / System
 
+- [anki linux install via tar.zst install.sh](anki%20linux%20install%20via%20tar.zst%20install.sh.md)
 - [apt package version mismatch - pgvector](apt%20package%20version%20mismatch%20-%20pgvector.md)
 - [apt repo configured as both list and sources](apt%20repo%20configured%20as%20both%20list%20and%20sources.md)
 - [apt repo gpg key must be dearmored](apt%20repo%20gpg%20key%20must%20be%20dearmored.md)
@@ -22,12 +23,17 @@ A categorized index of Today I Learned notes.
 - [ble.sh bash line editor](ble.sh%20bash%20line%20editor.md)
 - [bluetoothctl disconnect and tray applet](bluetoothctl%20disconnect%20and%20tray%20applet.md)
 - [brightnessctl control screen brightness](brightnessctl%20control%20screen%20brightness.md)
+- [cloudflare warp rotate ip with warp-cli](cloudflare%20warp%20rotate%20ip%20with%20warp-cli.md)
 - [download and verify a release jar](download%20and%20verify%20a%20release%20jar.md)
 - [du human readable biggest to smallest](du%20human%20readable%20biggest%20to%20smallest.md)
 - [find your public ip v4 vs v6](find%20your%20public%20ip%20v4%20vs%20v6.md)
+- [firefox snap and dev profiles do not share](firefox%20snap%20and%20dev%20profiles%20do%20not%20share.md)
+- [gh auth refresh add oauth scopes](gh%20auth%20refresh%20add%20oauth%20scopes.md)
 - [gnome text scaling factor](gnome%20text%20scaling%20factor.md)
+- [inotify watcher limit enospc for file watchers](inotify%20watcher%20limit%20enospc%20for%20file%20watchers.md)
 - [install postgres on ubuntu](install%20postgres%20on%20ubuntu.md)
 - [kanata tap-hold key to run a script](kanata%20tap-hold%20key%20to%20run%20a%20script.md)
+- [koreader ssh server is sftp on port 2222](koreader%20ssh%20server%20is%20sftp%20on%20port%202222.md)
 - [make pattern rule needs a prerequisite](make%20pattern%20rule%20needs%20a%20prerequisite.md)
 - [nepali phonetic typing with xkb](nepali%20phonetic%20typing%20with%20xkb.md)
 - [nmcli wifi figure out password for currently connected network](nmcli%20wifi%20figure%20out%20password%20for%20currently%20connected%20network.md)
@@ -35,8 +41,10 @@ A categorized index of Today I Learned notes.
 - [php apt install 404 stale index](php%20apt%20install%20404%20stale%20index.md)
 - [pip blocked by PEP 668 - use a venv](pip%20blocked%20by%20PEP%20668%20-%20use%20a%20venv.md)
 - [powersave cpu governor invalidates benchmarks](powersave%20cpu%20governor%20invalidates%20benchmarks.md)
+- [proxychains and tor route app traffic](proxychains%20and%20tor%20route%20app%20traffic.md)
 - [rtv tuir configparser readfp fix](rtv%20tuir%20configparser%20readfp%20fix.md)
 - [shutdown at a later time](shutdown%20at%20a%20later%20time.md)
+- [snap refresh.retain reclaim disabled revisions](snap%20refresh.retain%20reclaim%20disabled%20revisions.md)
 - [ssh copy public key to clipboard](ssh%20copy%20public%20key%20to%20clipboard.md)
 - [stream command output with read fwrite](stream%20command%20output%20with%20read%20fwrite.md)
 - [systemd 203 exec from cargo binary path](systemd%20203%20exec%20from%20cargo%20binary%20path.md)
@@ -81,6 +89,7 @@ A categorized index of Today I Learned notes.
 - [gopro thm thumbnail files](gopro%20thm%20thumbnail%20files.md)
 - [gopro udev auto ingest](gopro%20udev%20auto%20ingest.md)
 - [mpv youtube broken update yt-dlp](mpv%20youtube%20broken%20update%20yt-dlp.md)
+- [playwright video timestamps scrambled on reencode](playwright%20video%20timestamps%20scrambled%20on%20reencode.md)
 - [remux iphone mov to mp4](remux%20iphone%20mov%20to%20mp4.md)
 - [weasyprint repeat letterhead in page margin](weasyprint%20repeat%20letterhead%20in%20page%20margin.md)
 - [yt-dlp download as mp3](yt-dlp%20download%20as%20mp3.md)
@@ -92,8 +101,10 @@ A categorized index of Today I Learned notes.
 - [docx hidden toc field creates ghost pages](docx%20hidden%20toc%20field%20creates%20ghost%20pages.md)
 - [full-width header rows break x-clustering](full-width%20header%20rows%20break%20x-clustering.md)
 - [paddleocr pp-ocrv5 devanagari model](paddleocr%20pp-ocrv5%20devanagari%20model.md)
+- [pdf2image rasterises all pages at once](pdf2image%20rasterises%20all%20pages%20at%20once.md)
 - [pdftoppm tesseract python-docx for editable scans](pdftoppm%20tesseract%20python-docx%20for%20editable%20scans.md)
 - [pillow fit text into rectangle](pillow%20fit%20text%20into%20rectangle.md)
+- [pymupdf table version notice is a layout ad](pymupdf%20table%20version%20notice%20is%20a%20layout%20ad.md)
 
 ---
 
@@ -104,6 +115,7 @@ A categorized index of Today I Learned notes.
 - [coop coep service worker for sharedarraybuffer](coop%20coep%20service%20worker%20for%20sharedarraybuffer.md)
 - [copying a firefox profile does not bypass cloudflare](copying%20a%20firefox%20profile%20does%20not%20bypass%20cloudflare.md)
 - [docker anonymous volume keeps stale node_modules](docker%20anonymous%20volume%20keeps%20stale%20node_modules.md)
+- [github actions exit 143 means runner sigterm](github%20actions%20exit%20143%20means%20runner%20sigterm.md)
 - [github actions token cannot push gh-pages](github%20actions%20token%20cannot%20push%20gh-pages.md)
 - [gradle build no space left on device](gradle%20build%20no%20space%20left%20on%20device.md)
 - [html-to-image blank png from off-screen node](html-to-image%20blank%20png%20from%20off-screen%20node.md)
@@ -119,6 +131,7 @@ A categorized index of Today I Learned notes.
 - [svelte 5 effect feedback loop](svelte%205%20effect%20feedback%20loop.md)
 - [svelte 5 state proxy cannot be postmessaged](svelte%205%20state%20proxy%20cannot%20be%20postmessaged.md)
 - [svelte worker stale tick race](svelte%20worker%20stale%20tick%20race.md)
+- [tina build-local bakes localhost graphql endpoint](tina%20build-local%20bakes%20localhost%20graphql%20endpoint.md)
 - [vercel php has no gd use jpeg for dompdf](vercel%20php%20has%20no%20gd%20use%20jpeg%20for%20dompdf.md)
 - [vue ref needs value inside setInterval](vue%20ref%20needs%20value%20inside%20setInterval.md)
 - [vue watch on timer state creates multiple intervals](vue%20watch%20on%20timer%20state%20creates%20multiple%20intervals.md)
@@ -129,6 +142,7 @@ A categorized index of Today I Learned notes.
 
 - [android foreground service for a reliable timer](android%20foreground%20service%20for%20a%20reliable%20timer.md)
 - [android haptics need vibratormanager fallback](android%20haptics%20need%20vibratormanager%20fallback.md)
+- [android quick settings tiles must be manifest declared](android%20quick%20settings%20tiles%20must%20be%20manifest%20declared.md)
 - [android sqlite returning requires api 31](android%20sqlite%20returning%20requires%20api%2031.md)
 - [androidcontext must be initialized before service onCreate](androidcontext%20must%20be%20initialized%20before%20service%20onCreate.md)
 - [compile sdk 35 with agp 8.2](compile%20sdk%2035%20with%20agp%208.2.md)
@@ -138,6 +152,7 @@ A categorized index of Today I Learned notes.
 - [detekt needs explicit kmp source sets](detekt%20needs%20explicit%20kmp%20source%20sets.md)
 - [kmp host tests need include android resources](kmp%20host%20tests%20need%20include%20android%20resources.md)
 - [kmp jvm target and getstringset gotchas](kmp%20jvm%20target%20and%20getstringset%20gotchas.md)
+- [kmp new gradle module needs kotlin native toolchain](kmp%20new%20gradle%20module%20needs%20kotlin%20native%20toolchain.md)
 - [kmp viewmodel test hangs on scheduler mismatch](kmp%20viewmodel%20test%20hangs%20on%20scheduler%20mismatch.md)
 - [koin compiler plugin missing from maven central](koin%20compiler%20plugin%20missing%20from%20maven%20central.md)
 - [r8 minify a kmp android release build](r8%20minify%20a%20kmp%20android%20release%20build.md)
@@ -184,10 +199,11 @@ A categorized index of Today I Learned notes.
 ## Non-code / Admin
 
 - [np domain needs dao registration](np%20domain%20needs%20dao%20registration.md)
+- [play closed test 12 testers rule is per app](play%20closed%20test%2012%20testers%20rule%20is%20per%20app.md)
 
 ---
 
 ## Stats
 
-- Total TILs: 116
-- Last updated: 2026-10-20
+- Total TILs: 132
+- Last updated: 2026-11-08
